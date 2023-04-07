@@ -1,0 +1,32 @@
+name: Run Pytest
+on:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+
+# Eventually we will have a whole suite of tests and maybe even deployments
+# to make sure our PR is working as intended
+# 
+# On PRs, (for now) we will just do the following: 
+jobs:
+  pytest:
+    runs-on: ubuntu-latest
+    steps:
+      # Checkout our repo
+      - uses: actions/checkout@v3
+        with:
+          fetch-depth: 0
+      # Install python 3.9 
+      - uses: actions/setup-python@v4 
+        with:
+          python-version: '3.9'
+          cache: 'pip'
+      # Install requirements, and install the quadball package
+      # Run all unit tests
+      - run: |
+          pip install -r requirements.txt
+          pip install pytest
+          pip install . 
+          python -m pytest . 
