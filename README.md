@@ -11,3 +11,6 @@ Inc 2:
 * Repository: Created CI/CD workflow template
 * Github: attached secrets for GHA_AWS_ACCESS_KEY and GHA_AWS_SECRET_ACCESS_KEY
 * AWS: Create GH Actions IAM user and grant necessary permissions
+
+Inc 3: 
+* Installed protobuf v4.22.1 and added to requirements
