@@ -19,3 +19,11 @@ Inc 3:
 * Made schema folder a python package
 * Added open_file() with eventual functionality to open both S3 and local files
 * Added unit testing for schema compliance
+
+
+Inc 4: 
+* AWS: Created S3 bucket s3://wbquadball-uw2-deployment to host all deployment artefacts
+* Created lambdas/ folder which will host lambda code
+* Created a deploy/ folder which will host shell scripts to deploy code upon merge
+* deploy_lambdas.sh currently uploads the lone lambda to S3 
+* Modify GHA on merge to main runs deploy_lambdas .sh
