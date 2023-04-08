@@ -13,7 +13,7 @@ jobs:
       - name: Setup python
         uses: actions/setup-python@v4 
         with:
-          python-version: '3.10'
+          python-version: '3.9'
       #   cache: 'pip' # don't need python yet, so disabling cache
       # Use the AWS credentials we have set in our GH Action secrets
       - name: Configure AWS Credentials
@@ -25,5 +25,5 @@ jobs:
       - name: Deploy
         run: |
           cd deploy
-          deploy_lambdas.sh
+          bash deploy_lambdas.sh
 
