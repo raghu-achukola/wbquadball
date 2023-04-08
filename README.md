@@ -14,3 +14,8 @@ Inc 2:
 
 Inc 3: 
 * Installed protobuf v4.22.1 and added to requirements
+* Setup protobuf project template
+* Created protocompile.py file to automate compile of python files from protoschema
+* Made schema folder a python package
+* Added open_file() with eventual functionality to open both S3 and local files
+* Added unit testing for schema compliance
