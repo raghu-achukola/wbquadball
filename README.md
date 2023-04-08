@@ -23,7 +23,8 @@ Inc 3:
 
 Inc 4: 
 * AWS: Created S3 bucket s3://wbquadball-uw2-deployment to host all deployment artefacts
+* AWS : Created Lambda function wbquadball-uw2-parse-statsheet
 * Created lambdas/ folder which will host lambda code
 * Created a deploy/ folder which will host shell scripts to deploy code upon merge
-* deploy_lambdas.sh currently uploads the lone lambda to S3 
-* Modify GHA on merge to main runs deploy_lambdas .sh
+* deploy_lambdas.sh currently uploads the lone lambda to S3 and updates the Lambda function
+* Modify GHA workflow on merge to main runs deploy_lambdas.sh
