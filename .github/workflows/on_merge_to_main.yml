@@ -22,4 +22,8 @@ jobs:
           aws-access-key-id: ${{ secrets.GHA_AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.GHA_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
-      - run: aws s3 ls
+      - name: Deploy
+        run: |
+        cd deploy
+        deploy_lambdas.sh
+
