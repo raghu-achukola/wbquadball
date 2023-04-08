@@ -24,6 +24,6 @@ jobs:
           aws-region: us-west-2
       - name: Deploy
         run: |
-        cd deploy
-        deploy_lambdas.sh
+          cd deploy
+          deploy_lambdas.sh
 
