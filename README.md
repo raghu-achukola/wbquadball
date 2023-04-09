@@ -34,3 +34,13 @@ Inc 5:
 * Create method that yields each StatSheetPossession object
 * NOTE: tech debt incurred, testing not complete for generator objects as framework for storing data/fixtures for unit tests not present
 
+Inc 6: 
+* AWS S3: Create layer/ path where lambda layer deployments will live
+* CI/CD: Create a deploy_layer.sh file to run before deploy_lambdas that will generate a package zip full of quadball/ and all dependencies and upload to S3
+* AWS Lambda: Create a layer quadball with initial code found in the S3 file
+* CI/CD: Modify deploy_layer.sh to update quadball lambda layer with latest code on merge to main 
+* CI/CD: Modify deploy_lambdas.sh to 
+   a\ update the function code with latest lambda code 
+   b\ WAIT until the update has completed
+   c\ attach the latest version of the lambda layer
+* Modify existing lambdas to do a empty import of quadball package to test lambda function-layer connectivity
