@@ -25,5 +25,6 @@ jobs:
       - name: Deploy
         run: |
           cd deploy
+          bash deploy_layer.sh
           bash deploy_lambdas.sh
 
