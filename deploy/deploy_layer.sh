@@ -1,6 +1,6 @@
 mkdir deploy_quadball/
 cd deploy_quadball/
-mdkir python
+mkdir python
 cd python
 pip install -r ../../../requirements.txt -t .
 pip install ../../../ -t .
