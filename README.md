@@ -28,3 +28,9 @@ Inc 4:
 * Created a deploy/ folder which will host shell scripts to deploy code upon merge
 * deploy_lambdas.sh currently uploads the lone lambda to S3 and updates the Lambda function
 * Modify GHA workflow on merge to main runs deploy_lambdas.sh
+
+Inc 5: 
+* Create method that yields each possession block in a stats worksheet
+* Create method that yields each StatSheetPossession object
+* NOTE: tech debt incurred, testing not complete for generator objects as framework for storing data/fixtures for unit tests not present
+
