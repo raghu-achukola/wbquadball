@@ -26,6 +26,6 @@ jobs:
         run: |
           cd deploy
           bash deploy_layer.sh
-          echo "QUADBALL_LAYER=$(aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn')" >> GITHUB_ENV
+          echo "QUADBALL_LAYER=$(aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn')" >> $GITHUB_ENV
           bash deploy_lambdas.sh
 
