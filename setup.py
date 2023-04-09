@@ -5,7 +5,7 @@ setup(
     #this will be the package name you will see, e.g. the output of 'conda list' in anaconda prompt
     name = 'quadball', 
     #some version number you may wish to add - increment this after every update
-    version='0.0.4', 
+    version='0.0.5', 
   
     # Use one of the below approach to define package and/or module names:
   
