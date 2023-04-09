@@ -1,8 +1,8 @@
 [
     {
-        "end_time":"0502",
-        "offense":"TEXAS", 
         "extras" : "R53",
+        "offense":"TEXAS", 
+        "end_time":"0502",
         "result" : "TD", 
         "primary" : "6",
         "secondary" : "31,32"

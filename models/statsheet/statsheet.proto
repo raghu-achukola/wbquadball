@@ -2,9 +2,9 @@ syntax = "proto3";
 package models.statsheet;
 
 message StatSheetPossession{
-    string end_time = 1; 
+    string extras = 1; 
     string offense = 2; 
-    string extras = 3;
+    string end_time = 3;
     string result = 4; 
     string primary = 5;
     string secondary = 6; 
