@@ -56,3 +56,9 @@ Inc 8:
 * AWS Lambda/IAM : Update Lambda permissions to be able to access S3 bucket ^ 
 * Code Lambda: Update Lambda code to read in the xlsx file caused by the trigger, parse into Statsheet objects, and print
 * Quadball package: Fix statsheet gen_possessions bug
+
+
+Inc 9: 
+* quadball.db: Begin conversion package from statsheet -> central data model, starting with the Extra message
+* Unit testing: add unit tests for new conversion code for Extra message
+* Code Lambda: Update Lambda code to test this extra parsing functionality
