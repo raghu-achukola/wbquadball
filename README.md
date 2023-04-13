@@ -48,3 +48,9 @@ Inc 6:
 Inc 7: 
 * Data Model: Added the structure for the central OLTP data model, with first message type (Possession)
 * Unit Testing: Added unit tests/test data for new data model 
+
+Inc 8: 
+* AWS Lambda: Update Lambda to have a function to do act on an S3 Trigger framework. (temporary) 
+* AWS S3: Create landing bucket for AWS Lambda (temporary)
+* AWS Lambda/IAM : Update Lambda permissions to be able to access S3 bucket ^ 
+* Code Lambda: Update Lambda code to read in the xlsx file caused by the trigger, parse into Statsheet objects, and print
