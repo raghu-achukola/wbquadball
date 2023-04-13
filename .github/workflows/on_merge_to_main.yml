@@ -22,11 +22,12 @@ jobs:
           aws-access-key-id: ${{ secrets.GHA_AWS_ACCESS_KEY }}
           aws-secret-access-key: ${{ secrets.GHA_AWS_SECRET_ACCESS_KEY }}
           aws-region: us-west-2
-      - name: Deploy
+      - name: Deploy layer
         run: |
           cd deploy
           bash deploy_layer.sh
-          echo "QUADBALL_LAYER=$(aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn')" >> $GITHUB_ENV
-          echo $QUADBALL_LAYER
-          bash deploy_lambdas.sh
+      - name: Get latest layer version and run
+        run: aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | bash deploy_lambdas.sh
+      - name: 
+        run: 
 
