@@ -2,14 +2,29 @@ import os
 import subprocess
 
 relpath = lambda *paths: os.path.realpath(os.path.join(os.path.dirname(__file__),*paths))
-SRC_DIR = relpath('models','statsheet')
-DST_DIR = relpath('quadball','schema','statsheet')
 
-for path in os.listdir(SRC_DIR):
-    if path.endswith('.proto'):
-        subprocess.run(
-            [
-                "protoc", f"-I={SRC_DIR}" ,f"--python_out={DST_DIR}",
-                os.path.join(SRC_DIR,path)
-            ]
-        )
+
+
+def compile_protos(src_path:str, dest_path:str) -> None:
+    for path in os.listdir(src_path):
+        if path.endswith('.proto'):
+            subprocess.run(
+                [
+                    "protoc", f"-I={src_path}" ,f"--python_out={dest_path}",
+                    os.path.join(src_path,path)
+                ]
+            )
+
+
+# statsheet
+compile_protos(
+    relpath('models','statsheet'),
+    relpath('quadball','schema','statsheet')
+)
+
+
+# db
+compile_protos(
+    relpath('models','db'),
+    relpath('quadball','schema','db')
+)
