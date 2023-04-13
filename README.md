@@ -44,3 +44,7 @@ Inc 6:
    b\ WAIT until the update has completed
    c\ attach the latest version of the lambda layer
 * Modify existing lambdas to do a empty import of quadball package to test lambda function-layer connectivity
+
+Inc 7: 
+* Data Model: Added the structure for the central OLTP data model, with first message type (Possession)
+* Unit Testing: Added unit tests/test data for new data model 
