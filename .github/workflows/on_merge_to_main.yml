@@ -29,6 +29,6 @@ jobs:
       - name: Get latest layer version and run
         run: |
           cd deploy
-          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | bash deploy_lambdas.sh
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh
 
 
