@@ -1,0 +1,39 @@
+{
+    "test_extra_extraction_none":{
+        "in":{"extra":"S","offense":"A","defense":"B"},
+        "out":{
+            "extra_type":"S"
+        }
+    }, 
+    "test_extra_extraction_team_only":{
+        "in":{"extra":"TOA","offense":"B","defense":"A"},
+        "out":{
+            "extra_type":"TO",
+            "extra_team_is_offense": false
+        }
+    },
+    "test_extra_assume_team":{
+        "in":{"extra":"R12","offense":"A","defense":"B"},
+        "out":{
+            "extra_type": "R",
+            "extra_team_is_offense":false,
+            "player_id":"12"
+        }
+    }, 
+    "test_extra_explicit_team":{
+        "in":{"extra":"BA32","offense":"A","defense":"B"},
+        "out":{
+            "extra_type":"B",
+            "extra_team_is_offense": true,
+            "player_id":"32"
+        }
+    },
+    "test_extra_numeric_start":{
+        "in":{"extra":"2YB6","offense":"B","defense":"A"},
+        "out":{
+            "extra_type":"_2Y",
+            "extra_team_is_offense":true,
+            "player_id":"6"
+        }
+    }
+}
