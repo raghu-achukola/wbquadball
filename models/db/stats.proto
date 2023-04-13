@@ -1,0 +1,78 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+package models.db;
+
+
+enum ExtraType{
+    EXTRA_TYPE_UNKOWN = 0;
+    // One
+    R = 1;              // Reset (generic/forced by a beater)
+    RC = 2;             // Reset forced by a chaser
+    UR = 3;             // Unforced reset
+    // Need Team  
+    B = 30;             // Blue card
+    Y = 31;             // Yellow card
+    _1R = 32;           // Straight red card
+    _2Y = 33;           // Second yellow (not red)
+    _2YR = 34;          // Second yellow red
+    _3YR = 35;          // Third yellow red
+    C = 36;             // Non-ending catch
+
+    // ZERO/ Team Wide
+    S = 50;             // Snitch on pitch
+    TO = 51;             // Timeout
+
+}
+
+
+enum PossessionResult{
+    // TODO: rearrange so that the encoding carries meaning
+    POSSESSION_RESULT_UNKNOWN = 0;
+    G = 1;              // Goal
+    E = 2;              // Error
+    T = 3;              // Takeaway (Turnover Forced)
+    GD = 5;             // Goal on the drive
+    GS = 6;             // Goal on the shot
+    GP = 7;             // Goal on the pass
+    GC = 8;             // Goal on the rebound/cleanup
+    EM = 9;             // Error, missed shot
+    EP = 10;            // Error, pass off target
+    ED = 11;            // Error, dropped pass
+    TB = 12;            // Takeaway, beat
+    TC = 13;            // Takeaway, contact
+    TD = 14;            // Takeway, defended pass
+    TL = 15;            // Takeaway, blocked shot
+    T2R = 16;           // Takeaway, second reset forced
+    E2R = 17;           // Error, second reset
+    EB  = 18;           // Error, blue card
+    EY = 19;            // Error, first yellow card
+    E1R = 20;           // Error, first red card
+    E2Y = 21;           // Error, second yellow
+    E2YR = 22;          // Error, second yellow red
+    E3YR = 23;          // Error, third yellow red
+    ET = 24;            // Error, turnover penalty
+    OG = 25;            // Own Goal
+    TBL = 26;           // Takeaway, bludger block
+}
+
+message Extra {
+    ExtraType   extra_type = 1;
+    google.protobuf.BoolValue   extra_team_is_offense = 2; 
+    string      player_id = 3; 
+}
+
+message Possession{
+    string game_id = 1; 
+    google.protobuf.UInt32Value possession_number = 2; 
+    repeated Extra extras = 3; 
+    google.protobuf.UInt32Value gametime_at_end = 4;
+    PossessionResult result = 5; 
+    google.protobuf.BoolValue winning_team_is_offense = 6; 
+    string player_0_id = 7;
+    string player_1_id = 8;
+    string player_2_id = 9;
+    string player_3_id = 10;
+}
+
+
+

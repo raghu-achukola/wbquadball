@@ -1,0 +1,19 @@
+[
+    {
+        "game_id":"1",
+        "possession_number" : 23,
+        "extras":[
+            {
+                "extra_type":"UR",
+                "extra_team_is_offense":true,
+                "player_id":"23"
+            }
+        ],
+        "gametime_at_end":1023,
+        "result":"TD",
+        "winning_team_is_offense": true,
+        "player_1_id":"50",
+        "player_2_id":"98",
+        "player_3_id":"341"
+    }
+]
