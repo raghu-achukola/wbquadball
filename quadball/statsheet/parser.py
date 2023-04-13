@@ -61,7 +61,7 @@ def gen_statsheet_values(ws:Worksheet, starter_cell:Cell) -> Generator[list,None
                 # We ran out of rows
                 break
         yield get_cell_group_values( ws, starter_cell.row, starter_cell.column)
-    
+
 
 def gen_statsheet_possessions(ws:Worksheet, starter_cell:Cell = None) -> Generator[StatSheetPossession, None, None]:
     """
@@ -69,8 +69,8 @@ def gen_statsheet_possessions(ws:Worksheet, starter_cell:Cell = None) -> Generat
         Bounces from posession to possession and converts to our Schema
         StatsheetPossession object
     """
-    previous_offense:None
-    first_possession:True
+    previous_offense = None
+    first_possession = True
     if starter_cell is None: 
         starter_cell = ws.cell(*DEFAULT_STATSHEET_START) #default starting cell 
     for extras, offense, end_time, result, primary, secondary in gen_statsheet_values(ws, starter_cell):
@@ -86,11 +86,11 @@ def gen_statsheet_possessions(ws:Worksheet, starter_cell:Cell = None) -> Generat
             yield ParseDict(
                     {
                         'extras':str(extras) if extras is not None else '',
-                        'offense':str(offense) if extras is not None else '',
-                        'end_time':str(end_time) if extras is not None else '',
-                        'result':str(result) if extras is not None else '',
-                        'primary':str(primary) if extras is not None else '',
-                        'secondary':str(secondary) if extras is not None else '' 
+                        'offense':str(offense) if offense is not None else '',
+                        'end_time':str(end_time) if end_time is not None else '',
+                        'result':str(result) if result is not None else '',
+                        'primary':str(primary) if primary is not None else '',
+                        'secondary':str(secondary) if secondary is not None else '' 
                     },
                     StatSheetPossession()
                 )
