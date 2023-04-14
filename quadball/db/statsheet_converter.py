@@ -64,10 +64,53 @@ def convert_single_extra(extra:str, offense:str, defense:str)-> model.Extra:
 
 
     
-    
+def _convert_game_time(gametime_str:str) -> int:
+    assert gametime_str.isnumeric() and len(gametime_str) == 4
+    minutes, seconds = int(gametime_str[:2]), int(gametime_str[2:])
+    return 60*minutes + seconds
 
         
 #TODO: implement
-def convert_possession(possession: raw.StatSheetPossession) -> model.Possession:
-    pass
+def convert_possession(ss_possession: raw.StatSheetPossession) -> model.Possession:
+    possession = model.Possession()
+    
+    # Standard is "Team 'A' wins", if statsheet is taken with "Team B" winning, we will write a 
+    # reverse() function so "Team 'A' wins"
+    teams = ['A','B']
+    offense = ss_possession.offense
+    defense = teams[offense == 'A']
+    possession.winning_team_is_offense.CopyFrom(wrappers.BoolValue(value = (offense == 'A')))
+
+    ## Gametime at end
+    if ss_possession.end_time and ss_possession.end_time.isnumeric():
+        possession.gametime_at_end.CopyFrom(wrappers.UInt32Value(value = _convert_game_time(ss_possession.end_time)))
+
+    ## If possession result
+    if ss_possession.result: 
+        possession.result = getattr(model.PossessionResult, ss_possession.result.upper(), model.POSSESSION_RESULT_UNKNOWN)
+
+    # If extras -> split up each individual one, then pass to convert_single_extra
+    if ss_possession.extras:
+        extra_strings = ss_possession.extras.split(',')
+        extra_list = [convert_single_extra(extra_str,offense,defense) for extra_str in extra_strings]
+        possession.extras.extend(extra_list)
+
+    if ss_possession.primary: 
+        if ',' in ss_possession.primary:
+            # Yes, in this order player 1, player 0 
+            player_1, player_0 = ss_possession.primary.split(',')
+            possession.player_0_id = lookup_id(player_0)
+            possession.player_1_id = lookup_id(player_1)
+        else: 
+            possession.player_1_id = lookup_id(ss_possession.primary)
+
+    if ss_possession.secondary: 
+        if ',' in ss_possession.secondary:
+            player_2, player_3 = ss_possession.secondary.split(',')
+            possession.player_2_id = lookup_id(player_2)
+            possession.player_3_id = lookup_id(player_3)
+        else: 
+            possession.player_2_id = lookup_id(ss_possession.secondary)
+        
+    return possession
 
