@@ -62,3 +62,9 @@ Inc 9:
 * quadball.db: Begin conversion package from statsheet -> central data model, starting with the Extra message
 * Unit testing: add unit tests for new conversion code for Extra message
 * Code Lambda: Update Lambda code to test this extra parsing functionality
+
+
+Inc 10: 
+* quadball.db: Add functionality to the conversion package, converting whole Possessions
+* Unit testing: add unit tests for new conversion code for Possession
+* Code Lambda: Update Lambda code to test full possession reading from statsheet
