@@ -53,6 +53,13 @@ enum PossessionResult{
     ET = 24;            // Error, turnover penalty
     OG = 25;            // Own Goal
     TBL = 26;           // Takeaway, bludger block
+    // Catches
+    RCA = 27;           // Regular time catch by winning team
+    RCB = 28;           // Regular time catch by losing team 
+    OCA = 29;           // Overtime catch by winning team 
+    OCB = 30;           // Overtime catch by losing team 
+    _2CA = 31;          // Sudden death catch by winning team 
+    _2CB = 32;          // Sudden death catch by losing team (makes no sense)
 }
 
 message Extra {
