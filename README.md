@@ -68,3 +68,9 @@ Inc 10:
 * quadball.db: Add functionality to the conversion package, converting whole Possessions
 * Unit testing: add unit tests for new conversion code for Possession
 * Code Lambda: Update Lambda code to test full possession reading from statsheet
+
+Inc 11: 
+* models.quadball.db: Added canonical representation of a Game () objecte. The flow will work like this. We except Game objects to be created ahead of time (doc db? json? ) but empty. The Game value will thn contain the information necessary 
+* quadball.db.game/ rulesets: Added functionalities to parse entire games 
+* Unit testing: Unit testing on all of this ^ 
+ 
