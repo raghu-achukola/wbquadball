@@ -74,3 +74,8 @@ Inc 11:
 * quadball.db.game/ rulesets: Added functionalities to parse entire games 
 * Unit testing: Unit testing on all of this ^ 
  
+Inc 12: 
+Through development of just Game() class, we realized we need database read/write
+to handle complex things like player lookup and tournmanet/season/ruleset/etc. 
+* models.quadball.db: Added canonical representation of League, Season, Tournament, Team, Player
+* MongoDB: started mongodb cluster quadball-stats

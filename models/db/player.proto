@@ -1,0 +1,14 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+package models.db;
+
+
+message Player{
+    string player_id = 1; 
+    string player_first_name = 2; 
+    string player_last_name = 3;
+    google.protobuf.BoolValue chases= 4; 
+    google.protobuf.BoolValue beats= 5; 
+    google.protobuf.BoolValue keeps= 6; 
+    google.protobuf.BoolValue seeks= 7;
+}
