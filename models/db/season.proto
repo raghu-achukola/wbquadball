@@ -1,0 +1,12 @@
+syntax = "proto3";
+import "google/protobuf/timestamp.proto";
+package models.db;
+
+
+message Season{
+    string season_id = 1; 
+    string league_id = 2; 
+    google.protobuf.Timestamp season_start_date = 3; 
+    google.protobuf.Timestamp season_end_date= 4; 
+
+}

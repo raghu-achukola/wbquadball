@@ -1,0 +1,12 @@
+syntax = "proto3";
+import "google/protobuf/wrappers.proto";
+import "google/protobuf/timestamp.proto";
+package models.db;
+
+
+message Tournament{
+    string season_id = 1; 
+    string tournament_name = 2; 
+    google.protobuf.Timestamp tournament_start_date = 3; 
+    google.protobuf.BoolValue two_day= 4; 
+}
