@@ -1,0 +1,17 @@
+syntax = "proto3";
+package models.db;
+
+enum TeamType{
+    TEAM_TYPE_UNKOWN = 0;
+    TEAM_TYPE_COLLEGE = 1;
+    TEAM_TYPE_CLUB = 2; 
+    TEAM_TYPE_REGION = 3; 
+    TEAM_TYPE_COUNTRY = 4; 
+}
+
+message Team{
+    string team_id = 1; 
+    string team_abbreviation = 2; 
+    string team_name = 3; 
+    TeamType team_type = 4; 
+}
