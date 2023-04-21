@@ -1,0 +1,85 @@
+{
+  "resource": "/quadball-stats/register-entity/{proxy+}",
+  "path": "/quadball-stats/register-entity/league",
+  "httpMethod": "GET",
+  "headers": {
+    "Accept": "*/*",
+    "Accept-Encoding": "gzip, deflate, br",
+    "Host": "p0no67ln2m.execute-api.us-west-2.amazonaws.com",
+    "User-Agent": "python-requests/2.27.1",
+    "X-Amzn-Trace-Id": "Root=1-64430f4b-04233abc2c1672f508daeec8",
+    "X-Forwarded-For": "173.17.98.77",
+    "X-Forwarded-Port": "443",
+    "X-Forwarded-Proto": "https"
+  },
+  "multiValueHeaders": {
+    "Accept": [
+      "*/*"
+    ],
+    "Accept-Encoding": [
+      "gzip, deflate, br"
+    ],
+    "Host": [
+      "p0no67ln2m.execute-api.us-west-2.amazonaws.com"
+    ],
+    "User-Agent": [
+      "python-requests/2.27.1"
+    ],
+    "X-Amzn-Trace-Id": [
+      "Root=1-64430f4b-04233abc2c1672f508daeec8"
+    ],
+    "X-Forwarded-For": [
+      "173.17.98.77"
+    ],
+    "X-Forwarded-Port": [
+      "443"
+    ],
+    "X-Forwarded-Proto": [
+      "https"
+    ]
+  },
+  "queryStringParameters": {
+    "object": "{\"sup\":2}"
+  },
+  "multiValueQueryStringParameters": {
+    "object": [
+      "{\"sup\":2}"
+    ]
+  },
+  "pathParameters": {
+    "proxy": "league"
+  },
+  "stageVariables": null,
+  "requestContext": {
+    "resourceId": "qmhw9u",
+    "resourcePath": "/quadball-stats/register-entity/{proxy+}",
+    "httpMethod": "GET",
+    "extendedRequestId": "Dv9T2EQQvHcFllw=",
+    "requestTime": "21/Apr/2023:22:33:47 +0000",
+    "path": "/prod/quadball-stats/register-entity/league",
+    "accountId": "229272401578",
+    "protocol": "HTTP/1.1",
+    "stage": "prod",
+    "domainPrefix": "p0no67ln2m",
+    "requestTimeEpoch": 1682116427513,
+    "requestId": "c4777764-b842-43c5-8c89-9080aa8a5a35",
+    "identity": {
+      "cognitoIdentityPoolId": null,
+      "accountId": null,
+      "cognitoIdentityId": null,
+      "caller": null,
+      "sourceIp": "173.17.98.77",
+      "principalOrgId": null,
+      "accessKey": null,
+      "cognitoAuthenticationType": null,
+      "cognitoAuthenticationProvider": null,
+      "userArn": null,
+      "userAgent": "python-requests/2.27.1",
+      "user": null
+    },
+    "domainName": "p0no67ln2m.execute-api.us-west-2.amazonaws.com",
+    "apiId": "p0no67ln2m"
+  },
+  "body": null,
+  "isBase64Encoded": false
+}
