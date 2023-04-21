@@ -79,3 +79,14 @@ Through development of just Game() class, we realized we need database read/writ
 to handle complex things like player lookup and tournmanet/season/ruleset/etc. 
 * models.quadball.db: Added canonical representation of League, Season, Tournament, Team, Player
 * MongoDB: started mongodb cluster quadball-stats
+
+Inc 13 (Pure Console): 
+* Created read-write user for the API to use in MongoDB Atlas console 
+and stored credentials in AWS Secrets Manager
+* Created Lambda in AWS Console  wbquadball-uw2-register-entity that just has empty shell (returns event )    return {
+        'statusCode': 200,
+        'body': json.dumps(event)
+    }
+* Created API Gateway Quadball Stats REST API 
+* Create resource /quadball-stats, subresource /quadball-stats/register-entity, enable Lambda proxy on  route /quadball-stats/register-entity/{proxy+}
+* Test to capture request format
