@@ -37,7 +37,7 @@ def initialize_connection() -> Tuple[MongoClient,str]:
 
     if not (username and password and host and db_name):
         raise Exception('Empty or nonexistent connection parameters')
-    CONNECTION_STRING = f'mongodb+srv://{username}:{urllib.parse.quote_plus(password)}@{host}/{db_name}'
+    CONNECTION_STRING = f'mongodb+srv://{urllib.parse.quote_plus(username)}:{urllib.parse.quote_plus(password)}@{host}/{urllib.parse.quote_plus(db_name)}'
     return MongoClient(CONNECTION_STRING), db_name
     
 
