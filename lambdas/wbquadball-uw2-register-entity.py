@@ -24,7 +24,12 @@ def initialize_connection() -> Tuple[MongoClient,str]:
         db_name
     """
     sm = boto3.client('secretsmanager')
-    secret_json = sm.get(os.environ['SECRET_ARN'])
+    secret_json = json.loads(
+        sm.get_secret_value(
+            SecretId = os.environ['SECRET_ARN']
+        )['SecretString']
+    )
+    
     username = secret_json.get('username','')
     password = secret_json.get('password','')
     host = secret_json.get('host','')
@@ -42,8 +47,17 @@ def lambda_handler(event,  context ) -> dict:
     object_type = event.get('pathParameters',{}).get('proxy',{})
     qsp = event.get('queryStringParameters',{})
     object_value = json.loads(qsp.get('object',''))
-
-    client, db_name = initialize_connection()
+    try:
+        client, db_name = initialize_connection()
+    # TODO: Catch specific exceptions -> show different 500 codes
+    except Exception as e: 
+        return {
+            'status':500,
+            'body':{
+                'title': 'Error initializing Connection',
+                'exception': str(e)
+            }
+        }
     db = client[db_name]
     print(db.list_collection_names())
     return {
