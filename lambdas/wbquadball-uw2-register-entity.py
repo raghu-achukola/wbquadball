@@ -54,27 +54,27 @@ def lambda_handler(event,  context ) -> dict:
     except Exception as e: 
         return {
             'statusCode':500,
-            'body':{
+            'body':json.dumps({
                 'title': 'Error initializing Connection',
                 'exception': str(e)
-            }
+            })
         }
     try:
         id = register(db,object_value,object_type)
         print(db.list_collection_names())
         return {
             'statusCode':200,
-            'body':{
+            'body':json.dumps({
                 'inserted_id':str(id)
-            }
+            })
         }
     except Exception as e: 
         return {
             'statusCode':500,
-            'body':{
+            'body':json.dumps({
                 'title': 'Error registering Object',
                 'exception': str(e)
-            }
+            })
         }
     # try:
     #     id = register(db,object_value,object_type)
