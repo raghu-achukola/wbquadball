@@ -49,6 +49,7 @@ def lambda_handler(event,  context ) -> dict:
     object_value = json.loads(qsp.get('object',''))
     try:
         client, db_name = initialize_connection()
+        db = client[db_name]
     # TODO: Catch specific exceptions -> show different 500 codes
     except Exception as e: 
         return {
@@ -58,12 +59,23 @@ def lambda_handler(event,  context ) -> dict:
                 'exception': str(e)
             }
         }
-    db = client[db_name]
-    print(db.list_collection_names())
-    return {
-        'statusCode':200,
-        'body':json.dumps(db.list_collection_names())
-    }
+    try:
+        id = register(db,object_value,object_type)
+        print(db.list_collection_names())
+        return {
+            'statusCode':200,
+            'body':{
+                'inserted_id':str(id)
+            }
+        }
+    except Exception as e: 
+        return {
+            'status':500,
+            'body':{
+                'title': 'Error registering Object',
+                'exception': str(e)
+            }
+        }
     # try:
     #     id = register(db,object_value,object_type)
     # except Exception as e: 
