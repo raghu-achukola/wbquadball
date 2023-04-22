@@ -80,5 +80,4 @@ def register(db:pymongo.database.Database ,obj:dict, obj_type:str) -> bson.Objec
 
     # We call the individual register_* functions using PARSED proto-objects
     # In this way we ensure schema validation when writing to our db
-    return func(db[collection_name], ParseDict(obj,proto_struct))
-
+    return func(db[collection_name], ParseDict(obj,proto_struct()))
