@@ -10,3 +10,16 @@ aws lambda update-function-code --function-name wbquadball-uw2-parse-statsheet -
 # Resource conflict exception will result due to simultaneous updates unless we wait until function updated
 aws lambda wait function-updated --function-name wbquadball-uw2-parse-statsheet
 aws lambda update-function-configuration --function-name wbquadball-uw2-parse-statsheet --layers $1
+## TODO: rewrite in better format (take input parameters?)
+mkdir deploy_wbquadball-uw2-register-entity
+echo $1
+cd deploy_wbquadball-uw2-register-entity
+cp ../../lambdas/wbquadball-uw2-register-entity.py .
+zip deploy_wbquadball-uw2-register-entity.zip wbquadball-uw2-register-entity.py
+aws s3 cp deploy_wbquadball-uw2-register-entity.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-register-entity.zip
+cd ..
+rm -r deploy_wbquadball-uw2-register-entity
+aws lambda update-function-code --function-name wbquadball-uw2-register-entity --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-register-entity.zip 
+# Resource conflict exception will result due to simultaneous updates unless we wait until function updated
+aws lambda wait function-updated --function-name wbquadball-uw2-register-entity
+aws lambda update-function-configuration --function-name wbquadball-uw2-register-entity --layers $1

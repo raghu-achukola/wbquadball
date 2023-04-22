@@ -89,4 +89,10 @@ and stored credentials in AWS Secrets Manager
     }
 * Created API Gateway Quadball Stats REST API 
 * Create resource /quadball-stats, subresource /quadball-stats/register-entity, enable Lambda proxy on  route /quadball-stats/register-entity/{proxy+}
-* Test to capture request format
+* Test to capture request format from request:
+/quadball-stats/register-entity/league?object=%7B%22sup%22:2%7D
+(found in test_data)
+
+
+Inc 14
+* Created read
