@@ -53,7 +53,7 @@ def lambda_handler(event,  context ) -> dict:
     # TODO: Catch specific exceptions -> show different 500 codes
     except Exception as e: 
         return {
-            'status':500,
+            'statusCode':500,
             'body':{
                 'title': 'Error initializing Connection',
                 'exception': str(e)
@@ -70,7 +70,7 @@ def lambda_handler(event,  context ) -> dict:
         }
     except Exception as e: 
         return {
-            'status':500,
+            'statusCode':500,
             'body':{
                 'title': 'Error registering Object',
                 'exception': str(e)
