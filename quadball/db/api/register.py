@@ -8,6 +8,8 @@ from quadball.schema.db.game_pb2 import *
 from google.protobuf.json_format import MessageToDict, ParseDict
 import bson
 
+#TODO: Insert data integrity warning with seemingly duplicate insertions
+
 def register_league(league_collection:pymongo.collection.Collection,
                     league:League) -> bson.ObjectId: 
     result = league_collection.insert_one(MessageToDict(league))
@@ -76,7 +78,7 @@ def register(db:pymongo.database.Database ,obj:dict, obj_type:str) -> bson.Objec
     
     collection_name, func, proto_struct = mapper[obj_type]
 
-    # We call the individual register_* functions on a PARSED proto-object
+    # We call the individual register_* functions using PARSED proto-objects
     # In this way we ensure schema validation when writing to our db
     return func(db[collection_name], ParseDict(obj,proto_struct))
 
