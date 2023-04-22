@@ -95,4 +95,9 @@ and stored credentials in AWS Secrets Manager
 
 
 Inc 14
-* Created read
+* Granted the API (specifically the role used by the lambda triggered by the API) access to the mongo db secret
+* Modify lambda code to make a connection to the MongoDB
+* Include CI/CD for new API lambda
+
+Inc 15
+* Make the lambda code actually REGISTER the entity and return entity
