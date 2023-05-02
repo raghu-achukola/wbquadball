@@ -12,31 +12,31 @@ import bson
 
 def register_league(league_collection:pymongo.collection.Collection,
                     league:League) -> bson.ObjectId: 
-    result = league_collection.insert_one(MessageToDict(league))
+    result = league_collection.insert_one(MessageToDict(league,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register_season(season_collection:pymongo.collection.Collection,
                     season:Season 
                     ) -> bson.ObjectId:
     
-    result = season_collection.insert_one(MessageToDict(season))
+    result = season_collection.insert_one(MessageToDict(season,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register_tournament(tournament_collection:pymongo.collection.Collection,
                     tournament:Tournament 
                     ) -> bson.ObjectId:
     
-    result = tournament_collection.insert_one(MessageToDict(tournament))
+    result = tournament_collection.insert_one(MessageToDict(tournament,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register_team(team_collection: pymongo.collection.Collection,
                    team:Team) -> bson.ObjectId:
-    result = team_collection.insert_one(MessageToDict(team))
+    result = team_collection.insert_one(MessageToDict(team,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register_player(player_collection: pymongo.collection.Collection,
                    player:Player) -> bson.ObjectId:
-    result = player_collection.insert_one(MessageToDict(player))
+    result = player_collection.insert_one(MessageToDict(player,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register_empty_game(game_collection: pymongo.collection.Collection, 
@@ -44,7 +44,7 @@ def register_empty_game(game_collection: pymongo.collection.Collection,
     
     assert game.losing_team_score.value == 0 
     assert game.winning_team_score.value == 0 
-    result = game_collection.insert_one(MessageToDict(game))
+    result = game_collection.insert_one(MessageToDict(game,preserving_proto_field_name= True))
     return result.inserted_id
 
 def register(db:pymongo.database.Database ,obj:dict, obj_type:str) -> bson.ObjectId:
@@ -68,6 +68,7 @@ def register(db:pymongo.database.Database ,obj:dict, obj_type:str) -> bson.Objec
         'season':('seasons',register_season,Season),
         'tournament':('tournaments',register_tournament,Tournament),
         'team':('teams',register_team,Team),
+        'player':('players',register_player,Player)
     }
 
     # This will get caught as a 400 error in the API layer. We want exceptions
