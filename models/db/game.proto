@@ -19,7 +19,7 @@ message Ruleset{
 }
 
 message Game{
-    string game_id = 1; 
+    string _id = 1; 
     string tournament_id = 2; 
     string winning_team_id = 3; 
     google.protobuf.UInt32Value winning_team_score = 4;
@@ -27,5 +27,7 @@ message Game{
     google.protobuf.UInt32Value losing_team_score = 6;
     string losing_team_extras = 7;
     string losing_team_id = 8;
-    string description_in_tournament = 9;   
+    string description_in_tournament = 9;
+    repeated string film_sources = 10; 
+    string stats_source = 11;   
 }

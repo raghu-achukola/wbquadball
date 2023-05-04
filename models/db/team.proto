@@ -10,8 +10,8 @@ enum TeamType{
 }
 
 message Team{
-    string team_id = 1; 
-    string team_abbreviation = 2; 
+    string _id = 1; 
+    string team_id = 2; 
     string team_name = 3; 
     TeamType team_type = 4; 
 }

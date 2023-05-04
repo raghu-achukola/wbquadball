@@ -69,16 +69,18 @@ message Extra {
 }
 
 message Possession{
-    string game_id = 1; 
-    google.protobuf.UInt32Value possession_number = 2; 
-    repeated Extra extras = 3; 
-    google.protobuf.UInt32Value gametime_at_end = 4;
-    PossessionResult result = 5; 
-    google.protobuf.BoolValue winning_team_is_offense = 6; 
-    string player_0_id = 7;
-    string player_1_id = 8;
-    string player_2_id = 9;
-    string player_3_id = 10;
+    string _id = 1; 
+    string game_id = 2; 
+    google.protobuf.UInt32Value possession_number = 3; 
+    repeated Extra extras = 4; 
+    google.protobuf.UInt32Value gametime_at_end = 5;
+    PossessionResult result = 6; 
+    google.protobuf.BoolValue winning_team_is_offense = 7; 
+    string player_0_id = 8;
+    string player_1_id = 9;
+    string player_2_id = 10;
+    string player_3_id = 11;
+    string stats_source = 12;   
 }
 
 
