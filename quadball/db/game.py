@@ -12,7 +12,7 @@ class GameParser:
         OCA:OCB, 
         OCB:OCA
     }
-    def __init__(self, game_id:str, ruleset:Ruleset = None, tournament_id = None) -> None:
+    def __init__(self, game_id:str, roster = None, ruleset:Ruleset = None, tournament_id = None) -> None:
         self.ruleset = ruleset if ruleset else RULESET_USQ_8_THRU_12 # This ruleset has the most games
         self.possessions = []
         self.tournament_id = tournament_id
