@@ -15,7 +15,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nteam.proto\x12\tmodels.db\"m\n\x04Team\x12\x0f\n\x07team_id\x18\x01 \x01(\t\x12\x19\n\x11team_abbreviation\x18\x02 \x01(\t\x12\x11\n\tteam_name\x18\x03 \x01(\t\x12&\n\tteam_type\x18\x04 \x01(\x0e\x32\x13.models.db.TeamType*x\n\x08TeamType\x12\x14\n\x10TEAM_TYPE_UNKOWN\x10\x00\x12\x15\n\x11TEAM_TYPE_COLLEGE\x10\x01\x12\x12\n\x0eTEAM_TYPE_CLUB\x10\x02\x12\x14\n\x10TEAM_TYPE_REGION\x10\x03\x12\x15\n\x11TEAM_TYPE_COUNTRY\x10\x04\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\nteam.proto\x12\tmodels.db\"_\n\x04Team\x12\x0b\n\x03_id\x18\x01 \x01(\t\x12\x0f\n\x07team_id\x18\x02 \x01(\t\x12\x11\n\tteam_name\x18\x03 \x01(\t\x12&\n\tteam_type\x18\x04 \x01(\x0e\x32\x13.models.db.TeamType*x\n\x08TeamType\x12\x14\n\x10TEAM_TYPE_UNKOWN\x10\x00\x12\x15\n\x11TEAM_TYPE_COLLEGE\x10\x01\x12\x12\n\x0eTEAM_TYPE_CLUB\x10\x02\x12\x14\n\x10TEAM_TYPE_REGION\x10\x03\x12\x15\n\x11TEAM_TYPE_COUNTRY\x10\x04\x62\x06proto3')
 
 _TEAMTYPE = DESCRIPTOR.enum_types_by_name['TeamType']
 TeamType = enum_type_wrapper.EnumTypeWrapper(_TEAMTYPE)
@@ -37,8 +37,8 @@ _sym_db.RegisterMessage(Team)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _TEAMTYPE._serialized_start=136
-  _TEAMTYPE._serialized_end=256
+  _TEAMTYPE._serialized_start=122
+  _TEAMTYPE._serialized_end=242
   _TEAM._serialized_start=25
-  _TEAM._serialized_end=134
+  _TEAM._serialized_end=120
 # @@protoc_insertion_point(module_scope)

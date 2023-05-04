@@ -16,7 +16,7 @@ _sym_db = _symbol_database.Default()
 from google.protobuf import wrappers_pb2 as google_dot_protobuf_dot_wrappers__pb2
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngame.proto\x12\tmodels.db\x1a\x1egoogle/protobuf/wrappers.proto\"\x86\x01\n\x07Ruleset\x12\x12\n\ngoal_value\x18\x01 \x01(\r\x12\x15\n\rfloor_minutes\x18\x02 \x01(\r\x12\x13\n\x0b\x63\x61tch_value\x18\x03 \x01(\r\x12#\n\x07\x65ndgame\x18\x04 \x01(\x0e\x32\x12.models.db.EndGame\x12\x16\n\x0e\x65ndgame_target\x18\x05 \x01(\r\"\xae\x02\n\x04Game\x12\x0f\n\x07game_id\x18\x01 \x01(\t\x12\x15\n\rtournament_id\x18\x02 \x01(\t\x12\x17\n\x0fwinning_team_id\x18\x03 \x01(\t\x12\x38\n\x12winning_team_score\x18\x04 \x01(\x0b\x32\x1c.google.protobuf.UInt32Value\x12\x1b\n\x13winning_team_extras\x18\x05 \x01(\t\x12\x37\n\x11losing_team_score\x18\x06 \x01(\x0b\x32\x1c.google.protobuf.UInt32Value\x12\x1a\n\x12losing_team_extras\x18\x07 \x01(\t\x12\x16\n\x0elosing_team_id\x18\x08 \x01(\t\x12!\n\x19\x64\x65scription_in_tournament\x18\t \x01(\t*Y\n\x07\x45ndGame\x12\x13\n\x0f\x45ND_GAME_UNKOWN\x10\x00\x12\x12\n\x0e\x45ND_GAME_CATCH\x10\x01\x12\x11\n\rEND_GAME_TIME\x10\x02\x12\x12\n\x0e\x45ND_GAME_SCORE\x10\x03\x62\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\ngame.proto\x12\tmodels.db\x1a\x1egoogle/protobuf/wrappers.proto\"\x86\x01\n\x07Ruleset\x12\x12\n\ngoal_value\x18\x01 \x01(\r\x12\x15\n\rfloor_minutes\x18\x02 \x01(\r\x12\x13\n\x0b\x63\x61tch_value\x18\x03 \x01(\r\x12#\n\x07\x65ndgame\x18\x04 \x01(\x0e\x32\x12.models.db.EndGame\x12\x16\n\x0e\x65ndgame_target\x18\x05 \x01(\r\"\xd6\x02\n\x04Game\x12\x0b\n\x03_id\x18\x01 \x01(\t\x12\x15\n\rtournament_id\x18\x02 \x01(\t\x12\x17\n\x0fwinning_team_id\x18\x03 \x01(\t\x12\x38\n\x12winning_team_score\x18\x04 \x01(\x0b\x32\x1c.google.protobuf.UInt32Value\x12\x1b\n\x13winning_team_extras\x18\x05 \x01(\t\x12\x37\n\x11losing_team_score\x18\x06 \x01(\x0b\x32\x1c.google.protobuf.UInt32Value\x12\x1a\n\x12losing_team_extras\x18\x07 \x01(\t\x12\x16\n\x0elosing_team_id\x18\x08 \x01(\t\x12!\n\x19\x64\x65scription_in_tournament\x18\t \x01(\t\x12\x14\n\x0c\x66ilm_sources\x18\n \x03(\t\x12\x14\n\x0cstats_source\x18\x0b \x01(\t*Y\n\x07\x45ndGame\x12\x13\n\x0f\x45ND_GAME_UNKOWN\x10\x00\x12\x12\n\x0e\x45ND_GAME_CATCH\x10\x01\x12\x11\n\rEND_GAME_TIME\x10\x02\x12\x12\n\x0e\x45ND_GAME_SCORE\x10\x03\x62\x06proto3')
 
 _ENDGAME = DESCRIPTOR.enum_types_by_name['EndGame']
 EndGame = enum_type_wrapper.EnumTypeWrapper(_ENDGAME)
@@ -45,10 +45,10 @@ _sym_db.RegisterMessage(Game)
 if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
-  _ENDGAME._serialized_start=499
-  _ENDGAME._serialized_end=588
+  _ENDGAME._serialized_start=539
+  _ENDGAME._serialized_end=628
   _RULESET._serialized_start=58
   _RULESET._serialized_end=192
   _GAME._serialized_start=195
-  _GAME._serialized_end=497
+  _GAME._serialized_end=537
 # @@protoc_insertion_point(module_scope)
