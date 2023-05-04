@@ -5,8 +5,9 @@ package models.db;
 
 
 message Tournament{
-    string season_id = 1; 
-    string tournament_name = 2; 
-    google.protobuf.Timestamp tournament_start_date = 3; 
-    google.protobuf.BoolValue two_day= 4; 
+    string _id = 1; 
+    string season_id = 2; 
+    string tournament_name = 3; 
+    google.protobuf.Timestamp tournament_start_date = 4; 
+    google.protobuf.BoolValue two_day= 5; 
 }

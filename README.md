@@ -101,3 +101,9 @@ Inc 14
 
 Inc 15
 * Make the lambda code actually REGISTER the entity and return entity
+
+Inc 16
+* Add the ability to register players
+* Load the DB with pre-existing players and teams
+* Add lookup functionality to the statsheet converter
+* Update the db models that correspond to Mongo Collections to have _id fields 
