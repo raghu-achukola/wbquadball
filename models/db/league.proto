@@ -3,6 +3,7 @@ package models.db;
 
 
 message League{
-    string league_id = 1; 
-    string league_full_name = 2; 
+    string _id = 1; 
+    string league_id = 2; 
+    string league_full_name = 3; 
 }

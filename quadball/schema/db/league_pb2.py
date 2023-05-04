@@ -14,7 +14,7 @@ _sym_db = _symbol_database.Default()
 
 
 
-DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cleague.proto\x12\tmodels.db\"5\n\x06League\x12\x11\n\tleague_id\x18\x01 \x01(\t\x12\x18\n\x10league_full_name\x18\x02 \x01(\tb\x06proto3')
+DESCRIPTOR = _descriptor_pool.Default().AddSerializedFile(b'\n\x0cleague.proto\x12\tmodels.db\"B\n\x06League\x12\x0b\n\x03_id\x18\x01 \x01(\t\x12\x11\n\tleague_id\x18\x02 \x01(\t\x12\x18\n\x10league_full_name\x18\x03 \x01(\tb\x06proto3')
 
 
 
@@ -30,5 +30,5 @@ if _descriptor._USE_C_DESCRIPTORS == False:
 
   DESCRIPTOR._options = None
   _LEAGUE._serialized_start=27
-  _LEAGUE._serialized_end=80
+  _LEAGUE._serialized_end=93
 # @@protoc_insertion_point(module_scope)
