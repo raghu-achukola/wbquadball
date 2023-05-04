@@ -4,7 +4,7 @@ package models.db;
 
 
 message Player{
-    string player_id = 1; 
+    string _id = 1; 
     string player_first_name = 2; 
     string player_last_name = 3;
     google.protobuf.BoolValue chases= 4; 

@@ -19,7 +19,7 @@ message Ruleset{
 }
 
 message Game{
-    string game_id = 1; 
+    string _id = 1; 
     string tournament_id = 2; 
     string winning_team_id = 3; 
     google.protobuf.UInt32Value winning_team_score = 4;
