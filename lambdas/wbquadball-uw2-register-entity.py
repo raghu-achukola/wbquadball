@@ -61,11 +61,14 @@ def lambda_handler(event,  context ) -> dict:
         }
     try:
         id = register(db,object_value,object_type)
-        print(db.list_collection_names())
+        # TODO: Open question - is this best design? 
+        # Should we not return the already existing id in the case of duplicate?
+        status = 'DUPLICATE - NOT INSERTED' if id is None else 'COMPLETE'
         return {
             'statusCode':200,
             'body':json.dumps({
-                'inserted_id':str(id)
+                'status':status,
+                'inserted_id':None if id is None else str(id) 
             })
         }
     except Exception as e: 
