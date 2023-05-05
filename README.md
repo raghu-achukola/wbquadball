@@ -113,3 +113,17 @@ Inc 17
 * LAMBDA/register-entity: Update Lambda for register-entity API to propagate new format
 * MODELS/db : Move Ruleset to be defined at the Season level. This is just code location switching for now, will eventually turn into ruleset being defined AT the season level and GameParser taking the ruleset from the Season object
 * QUADBALL/db : Rewrite imports to adjust for the models change
+
+Inc 18
+* MONGODB/IAM: Create new read-only user for MongoDB for public facing APIs and read-only APIs
+* AWS/SecretsManager: Create secret mirroring keys in secret in Inc 13
+* QUADBALL/db/api: Add roster_lookup functionality
+* AWS/Lambda: Created lambda wbquadball-uw2-roster-lookup, with environment variable 
+pointing to Secret ^.
+* AWS/IAM: Modify the Lambda role ^ to be able to access the new secret
+* AWS/API Gateway: Setup /roster-lookup resource, and add a GET method that calls ^ that lambda
+* CI/CD : Add deployment of wbquadball-uw2-roster-lookup w quadball layer 
+
+* Tech Debt: note, we are overlevered
+  * add unit testing for lambdas/api 
+  * refactor shell scripts for CI/CD to functionalize deployment process
