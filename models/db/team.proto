@@ -12,6 +12,7 @@ enum TeamType{
 message Team{
     string _id = 1; 
     string team_id = 2; 
-    string team_name = 3; 
-    TeamType team_type = 4; 
+    string team_name = 3;
+    string league_id = 4;  
+    TeamType team_type = 5; 
 }
