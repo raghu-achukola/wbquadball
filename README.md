@@ -107,3 +107,9 @@ Inc 16
 * Load the DB with pre-existing players and teams
 * Add lookup functionality to the statsheet converter
 * Update the db models that correspond to Mongo Collections to have _id fields 
+
+Inc 17
+* API/REGISTER: Add a duplicate condition -> if secondary id is a duplicate, the API will not write the duplicate
+* LAMBDA/register-entity: Update Lambda for register-entity API to propagate new format
+* MODELS/db : Move Ruleset to be defined at the Season level. This is just code location switching for now, will eventually turn into ruleset being defined AT the season level and GameParser taking the ruleset from the Season object
+* QUADBALL/db : Rewrite imports to adjust for the models change
