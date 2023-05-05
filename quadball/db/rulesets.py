@@ -1,4 +1,4 @@
-from quadball.schema.db.game_pb2 import Ruleset,EndGame
+from quadball.schema.db.season_pb2 import Ruleset,EndGame
 
 RULESET_USQ_8_THRU_12 = Ruleset(
     goal_value = 10, 

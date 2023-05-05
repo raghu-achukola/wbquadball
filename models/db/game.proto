@@ -3,21 +3,6 @@ import "google/protobuf/wrappers.proto";
 package models.db;
 
 
-enum EndGame{
-    END_GAME_UNKOWN = 0;
-    END_GAME_CATCH = 1; 
-    END_GAME_TIME = 2; 
-    END_GAME_SCORE = 3;
-}
-
-message Ruleset{
-    uint32 goal_value = 1; 
-    uint32 floor_minutes = 2; 
-    uint32 catch_value  = 3; 
-    EndGame endgame = 4; 
-    uint32 endgame_target = 5;
-}
-
 message Game{
     string _id = 1; 
     string tournament_id = 2; 

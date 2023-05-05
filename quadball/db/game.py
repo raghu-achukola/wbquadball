@@ -1,4 +1,5 @@
 from quadball.schema.db.game_pb2 import *
+from quadball.schema.db.season_pb2 import *
 from quadball.schema.db.stats_pb2 import *
 from typing import Iterable
 from google.protobuf.wrappers_pb2 import UInt32Value
