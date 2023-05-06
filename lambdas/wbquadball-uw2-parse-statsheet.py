@@ -10,7 +10,7 @@ from quadball.statsheet.parser import gen_statsheet_possessions
 # Increment 10 -> test lambda by converting whole possessions
 from quadball.db.statsheet_converter import convert_possession 
 # Increment 11 -> test lambda (unit testing) by returning (not just printing) last possession
-from google.protobuf.json_format import MessageToJson
+from google.protobuf.json_format import MessageToJson, ParseDict
 from quadball.schema.db.stats_pb2 import Possession
 
 #Increment 19 ->  Multithread the API calls necessary here to increase speed
@@ -20,6 +20,7 @@ import requests
 import urllib
 # Increment 19 -> Actually parse game 
 from quadball.db.game import GameParser
+from quadball.schema.db.season_pb2 import Ruleset
 
 """
     This Lambda will have the following environment variables 
@@ -78,11 +79,20 @@ def process_possessions(possession_worksheet:Worksheet) -> list[Possession]:
     
     return possessions
 
-def verify_metadata_sheet(metadata_worksheet:Worksheet) :
+def verify_metadata_sheet(metadata_worksheet:Worksheet)-> Tuple[dict,dict]:
     # TODO: This method will eventually contain the logic where all the IDs in the METADATA worksheet
     # (season id, tournament id, game id, team ids )
     # are checked and validated as existing in the database
-    pass
+    API_ENDPOINT = os.environ['API_ENDPOINT']+'/validate-game-metadata'
+
+    api_parameters = {
+        a.value.lower().replace(' ','_'):str(b.value)
+        for a,b in metadata_worksheet['A1:B5']
+    }
+    film_links = [link.value for link in metadata_worksheet['B6:E6']]
+    response = requests.get(API_ENDPOINT+'?'+'&'.join({f'{param}={param_value}' for param, param_value in api_parameters}))
+    assert response.status_code == '200', response.json()
+    return response.json()
 
 
 def verify_roster_sheet (roster_worksheet: Worksheet):
@@ -121,21 +131,23 @@ def lambda_handler(event, context) -> dict:
     stream = BytesIO(response['Body'].read())
     wb = load_workbook(stream)
     ws_possessions, ws_roster, ws_metadata = extract_sheets(wb)
+    try:
+        metadata = verify_metadata_sheet(ws_metadata)
+        assert  metadata.get('validation_stage') == 'Success'
+    except AssertionError as e:
+        print(e)
+        return {}
+    
     possessions = process_possessions(ws_possessions)
     a_roster, b_roster = verify_roster_sheet(ws_roster)
 
-    print(ws_metadata)
-    game_id = ''
-    ruleset = ruleset
-    tournament_id = tournament_id
     game_parser = GameParser(
-        gam_id = game_id,
+        game_id = metadata['objects']['game']['_id']['$oid'],
         roster = {'A':a_roster,'B':b_roster},
-        ruleset = ruleset,
-        tournament_id= tournament_id
+        ruleset = ParseDict(metadata['objects']['ruleset'],Ruleset()),
+        tournament_id= metadata['objects']['game']['tournament_id']
     )
-    print(a_roster)
-    print(b_roster)
+    print(game_parser)
     return {
         'statusCode': 200,
         'body': MessageToJson(possessions[-1])
