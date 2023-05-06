@@ -35,7 +35,7 @@ zip deploy_wbquadball-uw2-roster-lookup.zip wbquadball-uw2-roster-lookup.py
 aws s3 cp deploy_wbquadball-uw2-roster-lookup.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-roster-lookup.zip
 cd ..
 rm -r deploy_wbquadball-uw2-roster-lookup
-aws lambda update-function-code --function-name wbquadball-uw2-roster-lookup --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-register-entity.zip 
+aws lambda update-function-code --function-name wbquadball-uw2-roster-lookup --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-roster-lookup.zip 
 # Resource conflict exception will result due to simultaneous updates unless we wait until function updated
 aws lambda wait function-updated --function-name wbquadball-uw2-roster-lookup
 aws lambda update-function-configuration --function-name wbquadball-uw2-roster-lookup --layers $1
