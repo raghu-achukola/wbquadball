@@ -90,7 +90,7 @@ def verify_metadata_sheet(metadata_worksheet:Worksheet)-> Tuple[dict,dict]:
         for a,b in metadata_worksheet['A1:B5']
     }
     film_links = [link.value for row in metadata_worksheet['B6:E6'] for link in row]
-    response = requests.get(API_ENDPOINT+'?'+'&'.join({f'{param}={param_value}' for param, param_value in api_parameters}))
+    response = requests.get(API_ENDPOINT+'?'+'&'.join({f'{param}={param_value}' for param, param_value in api_parameters.items()}))
     assert response.status_code == '200', response.json()
     return response.json()
 
