@@ -39,3 +39,17 @@ aws lambda update-function-code --function-name wbquadball-uw2-roster-lookup --s
 # Resource conflict exception will result due to simultaneous updates unless we wait until function updated
 aws lambda wait function-updated --function-name wbquadball-uw2-roster-lookup
 aws lambda update-function-configuration --function-name wbquadball-uw2-roster-lookup --layers $1
+## TODO: Really find a better way to do this, we're just copy-pasting code now
+## Deploying Lambda: validate-game-metadata
+mkdir deploy_wbquadball-uw2-validate-game-metadata
+echo $1
+cd deploy_wbquadball-uw2-validate-game-metadata
+cp ../../lambdas/wbquadball-uw2-validate-game-metadata.py .
+zip deploy_wbquadball-uw2-validate-game-metadata.zip wbquadball-uw2-validate-game-metadata.py
+aws s3 cp deploy_wbquadball-uw2-validate-game-metadata.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-validate-game-metadata.zip
+cd ..
+rm -r deploy_wbquadball-uw2-validate-game-metadata
+aws lambda update-function-code --function-name wbquadball-uw2-validate-game-metadata --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-validate-game-metadata.zip 
+# Resource conflict exception will result due to simultaneous updates unless we wait until function updated
+aws lambda wait function-updated --function-name wbquadball-uw2-validate-game-metadata
+aws lambda update-function-configuration --function-name wbquadball-uw2-validate-game-metadata --layers $1

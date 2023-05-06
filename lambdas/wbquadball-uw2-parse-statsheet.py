@@ -18,6 +18,8 @@ from concurrent.futures import ThreadPoolExecutor
 import os
 import requests
 import urllib
+# Increment 19 -> Actually parse game 
+from quadball.db.game import GameParser
 
 """
     This Lambda will have the following environment variables 
@@ -121,9 +123,19 @@ def lambda_handler(event, context) -> dict:
     ws_possessions, ws_roster, ws_metadata = extract_sheets(wb)
     possessions = process_possessions(ws_possessions)
     a_roster, b_roster = verify_roster_sheet(ws_roster)
+
+    print(ws_metadata)
+    game_id = ''
+    ruleset = ruleset
+    tournament_id = tournament_id
+    game_parser = GameParser(
+        gam_id = game_id,
+        roster = {'A':a_roster,'B':b_roster},
+        ruleset = ruleset,
+        tournament_id= tournament_id
+    )
     print(a_roster)
     print(b_roster)
-    print(ws_metadata)
     return {
         'statusCode': 200,
         'body': MessageToJson(possessions[-1])
