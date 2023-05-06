@@ -6,6 +6,7 @@ import os
 from pymongo import MongoClient
 import urllib
 from typing import Tuple
+from bson import json_util
 
 
 """
@@ -80,7 +81,7 @@ def lambda_handler(event,  context ) -> dict:
         response = validate_game_metadata(db,**api_kwargs)
         return {
             'statusCode':200,
-            'body':json.dumps(
+            'body':json_util.dumps(
                 response
             )
         }       
