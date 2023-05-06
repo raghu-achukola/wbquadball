@@ -4,6 +4,7 @@ from quadball.schema.db.stats_pb2 import *
 from typing import Iterable
 from google.protobuf.wrappers_pb2 import UInt32Value
 from quadball.db.rulesets import * 
+from google.protobuf.json_format import MessageToDict
 
 
 class GameParser:
@@ -15,6 +16,7 @@ class GameParser:
     }
     def __init__(self, game_id:str, roster = None, ruleset:Ruleset = None, tournament_id = None) -> None:
         self.ruleset = ruleset if ruleset else RULESET_USQ_8_THRU_12 # This ruleset has the most games
+        self.roster = roster
         self.possessions = []
         self.tournament_id = tournament_id
         #TODO: call out to get a game_id
@@ -83,3 +85,10 @@ class GameParser:
         print(reversed.possessions)
         return reversed
 
+    def __str__(self) -> str:
+        return f"""Game Parser:
+        \t game_id \t{self.game_id}
+        \t roster \t{self.roster}
+        \t ruleset \t{MessageToDict(self.ruleset)}
+        \t tournament_id \t{self.tournament_id}
+        """
