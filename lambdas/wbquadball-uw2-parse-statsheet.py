@@ -110,7 +110,7 @@ def verify_roster_sheet (roster_worksheet: Worksheet):
         response_a, response_b = executor.map(roster_api_call, [a_players,b_players])
 
 
-    return response_a, response_b
+    return response_a.json(), response_b.json()
 
 def lambda_handler(event, context) -> dict:
     s3 = boto3.client('s3')
