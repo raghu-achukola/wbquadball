@@ -13,6 +13,21 @@ from quadball.db.statsheet_converter import convert_possession
 from google.protobuf.json_format import MessageToJson
 from quadball.schema.db.stats_pb2 import Possession
 
+#Increment 19 ->  Multithread the API calls necessary here to increase speed
+from concurrent.futures import ThreadPoolExecutor
+import os
+import requests
+import urllib
+
+"""
+    This Lambda will have the following environment variables 
+
+    API_ENDPOINT:    API endpoint that contains the roster lookup resource (among others)
+
+"""
+
+
+
 def extract_first_file_from_event(event) -> Tuple[str,str]:
     s3_event = event['Records'][0]['s3']
     return s3_event['bucket']['name'], s3_event['object']['key']
@@ -67,10 +82,35 @@ def verify_metadata_sheet(metadata_worksheet:Worksheet) :
     # are checked and validated as existing in the database
     pass
 
+
 def verify_roster_sheet (roster_worksheet: Worksheet):
     # TODO: This method will eventually contain the logic which will check if all the players in 
     # the ROSTER sheet are validated as existing in the database
-    pass
+    API_ENDPOINT = os.environ['API_ENDPOINT']+'/roster-lookup?players={playerjson}'
+    
+
+    #Generate rosters
+    a,b = zip(*[
+        ((jersey.value,a_name.value),(jersey.value,b_name.value)) 
+        for jersey,a_name,b_name in roster_worksheet['A2:C101']
+        ]
+    )
+    a_players = {jersey:name.strip().upper() for jersey,name in a if name and name.strip()}
+    b_players = {jersey:name.strip().upper() for jersey,name in b if name and name.strip()}
+
+    # Define local function for multithreading
+    def roster_api_call(roster):
+        full_url = API_ENDPOINT.format(
+            playerjson= urllib.parse.quote_plus(json.dumps(roster))
+        )
+        return requests.get(full_url)
+
+    # Multithread the lookup
+    with ThreadPoolExecutor(max_workers=2) as executor:
+        response_a, response_b = executor.map(roster_api_call, [a_players,b_players])
+
+
+    return response_a, response_b
 
 def lambda_handler(event, context) -> dict:
     s3 = boto3.client('s3')
@@ -80,7 +120,9 @@ def lambda_handler(event, context) -> dict:
     wb = load_workbook(stream)
     ws_possessions, ws_roster, ws_metadata = extract_sheets(wb)
     possessions = process_possessions(ws_possessions)
-    print(ws_roster)
+    a_roster, b_roster = verify_roster_sheet(ws_roster)
+    print(a_roster)
+    print(b_roster)
     print(ws_metadata)
     return {
         'statusCode': 200,
