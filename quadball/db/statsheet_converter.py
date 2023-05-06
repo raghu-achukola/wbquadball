@@ -38,7 +38,7 @@ def convert_single_extra(extra:str, offense:str, defense:str, lookup_id: Callabl
     """
     match = _regex_extra_match(extra)
     if not match: 
-        raise Exception()
+        raise Exception(f'Extra {extra} does not seem to be a valid extra {list(EXTRA_DICTIONARY.keys())}')
     extra_type, team, player = match
     # Resets do not have team annotation as they can only be forced by one team
     # and unforced by one team
