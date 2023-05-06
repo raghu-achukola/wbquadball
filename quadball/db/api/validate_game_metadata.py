@@ -107,8 +107,8 @@ def validate_game_metadata(db: pymongo.database.Database, game_id:str, tournamen
     game_team_a_id = str(game.get('winning_team_id'))
     game_team_b_id = str(game.get('losing_team_id'))
     response['validation_stage'] = 'Team'
-    if set(team_a_id,team_b_id) != set(game_team_a_id,game_team_b_id):
-        response['validation_error'] = f'Team ID mismatch between given {set(team_a_id,team_b_id)} and teams tied to game { set(game_team_a_id,game_team_b_id)}'
+    if set([team_a_id,team_b_id]) != set([game_team_a_id,game_team_b_id]):
+        response['validation_error'] = f'Team ID mismatch between given {set([team_a_id,team_b_id])} and teams tied to game { set([game_team_a_id,game_team_b_id])}'
         return response
     
     team_a = team_coll.find_one({'_id':bson.ObjectId(team_a_id)})
