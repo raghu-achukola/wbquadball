@@ -23,10 +23,12 @@ class GameParser:
         self.game_id = game_id
         
         self.game = Game(
-            _id = str(self.game_id)
+            _id = str(self.game_id),
+            winning_team_extras = '',
+            losing_team_extras = '',
+            tournament_id = str(self.tournament_id),
         )
-        self.game.winning_team_score.CopyFrom(UInt32Value(value = 0))
-        self.game.losing_team_score.CopyFrom(UInt32Value(value = 0))
+
 
     def populate_from_possessions(self, possessions:Iterable[Possession]) -> None:
         for i, possession in enumerate(possessions):
@@ -59,12 +61,14 @@ class GameParser:
         # Nonending Catch
         if possession.extras:
             for extra in possession.extras:
-                if ExtraType.Name( extra.extra_type) == 'CA':
-                    self.game.winning_team_score.value += self.ruleset.catch_value
-                    self.game.winning_team_extras += '*'
-                elif  ExtraType.Name(extra.extra_type) == 'CB':
-                    self.game.losing_team_score.value += self.ruleset.catch_value
-                    self.game.losing_team_extras += '*'
+                if ExtraType.Name( extra.extra_type) == 'C':
+                    # if ETIO == WTIO , ET = WT -> A catch
+                    if extra.extra_team_is_offense.value == possession.winning_team_is_offense.value:
+                        self.game.winning_team_score.value += self.ruleset.catch_value
+                        self.game.winning_team_extras += '*'
+                    else:
+                        self.game.losing_team_score.value += self.ruleset.catch_value
+                        self.game.losing_team_extras += '*'                        
 
     # We use reverse here because it alleviates the stress of handling/switching extras
     # Since extras are offense defense based, NOT 
