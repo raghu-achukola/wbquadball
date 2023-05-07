@@ -14,20 +14,28 @@ class GameParser:
         OCA:OCB, 
         OCB:OCA
     }
-    def __init__(self, game_id:str, roster = None, ruleset:Ruleset = None, tournament_id = None) -> None:
+    def __init__(self, game_id:str, roster:dict = {}, ruleset:Ruleset = None, 
+                 tournament_id:str = None, team_a_id:str = None, team_b_id:str = None,
+                 film_links:list =[]) -> None:
         self.ruleset = ruleset if ruleset else RULESET_USQ_8_THRU_12 # This ruleset has the most games
         self.roster = roster
         self.possessions = []
+        self.team_a_id = team_a_id
+        self.team_b_id = team_b_id
         self.tournament_id = tournament_id
         #TODO: call out to get a game_id
         self.game_id = game_id
+        self.film_links = film_links
         
         self.game = Game(
             _id = str(self.game_id),
+            winning_team_id = self.team_a_id,
             winning_team_extras = '',
             losing_team_extras = '',
+            losing_team_id = self.team_b_id,
             tournament_id = str(self.tournament_id),
         )
+        self.game.film_sources.extend(film_links)
 
 
     def populate_from_possessions(self, possessions:Iterable[Possession]) -> None:
@@ -73,7 +81,14 @@ class GameParser:
     # We use reverse here because it alleviates the stress of handling/switching extras
     # Since extras are offense defense based, NOT 
     def reverse(self) ->  'GameParser':
-        reversed = GameParser(game_id = self.game_id, ruleset = self.ruleset, tournament_id= self.tournament_id)
+        reversed = GameParser(
+            game_id = self.game_id,
+            roster = {'A':self.roster.get('B',{}), 'B':self.roster.get('A',{})},
+            ruleset = self.ruleset,
+            tournament_id= self.tournament_id,
+            team_a_id = self.team_b_id, 
+            team_b_id = self.team_a_id
+        )
         reversed.game.CopyFrom(self.game)
         reversed.game.winning_team_score.value, reversed.game.losing_team_score.value  = (
            0,0

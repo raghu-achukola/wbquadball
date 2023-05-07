@@ -145,7 +145,9 @@ def lambda_handler(event, context) -> dict:
         game_id = metadata['objects']['game']['_id']['$oid'],
         roster = {'A':a_roster,'B':b_roster},
         ruleset = ParseDict(metadata['objects']['ruleset'],Ruleset()),
-        tournament_id= metadata['objects']['game']['tournament_id']
+        tournament_id= metadata['objects']['game']['tournament_id'],
+        team_a_id= metadata['objects']['team_a']['_id']['$oid'],
+        team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
 
     game_parser.populate_from_possessions(possessions)
