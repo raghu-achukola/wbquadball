@@ -147,7 +147,11 @@ def lambda_handler(event, context) -> dict:
         ruleset = ParseDict(metadata['objects']['ruleset'],Ruleset()),
         tournament_id= metadata['objects']['game']['tournament_id']
     )
+
+    game_parser.populate_from_possessions(possessions)
+
     print(game_parser)
+    print(MessageToJson(game_parser.game))
     return {
         'statusCode': 200,
         'body': MessageToJson(possessions[-1])
