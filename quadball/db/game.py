@@ -59,10 +59,10 @@ class GameParser:
         # Nonending Catch
         if possession.extras:
             for extra in possession.extras:
-                if extra.extra_type == getattr(ExtraType,'CA',EXTRA_TYPE_UNKOWN):
+                if ExtraType.Name( extra.extra_type) == 'CA':
                     self.game.winning_team_score.value += self.ruleset.catch_value
                     self.game.winning_team_extras += '*'
-                elif  extra.extra_type == getattr(ExtraType,'CB',EXTRA_TYPE_UNKOWN):
+                elif  ExtraType.Name(extra.extra_type) == 'CB':
                     self.game.losing_team_score.value += self.ruleset.catch_value
                     self.game.losing_team_extras += '*'
 
