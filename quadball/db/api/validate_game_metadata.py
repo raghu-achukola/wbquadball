@@ -117,11 +117,11 @@ def validate_game_metadata(db: pymongo.database.Database, game_id:str, tournamen
     if team_a is None:
         response['validation_error'] = f'Could not find Team A ID {team_a_id}'
         return response
-    response['objects']['team_a']
+    response['objects']['team_a'] = team_a
     if team_b is None:
         response['validation_error'] = f'Could not find Team B ID {team_b_id}'
         return response
-    response['objects']['team_b']
+    response['objects']['team_b'] = team_b
     response['validation_stage'] = 'Success'
     return response
     
