@@ -1,0 +1,14 @@
+{
+    "TEXAS_UVA":{
+        "tournament_id": "645470fe21129acf2f045bdf",
+        "winning_team_id": "64546a4097ca1b64c8f14273",
+        "winning_team_score":140,
+        "winning_team_extras":"",
+        "losing_team_extras":"*",
+        "losing_team_score":125,
+        "losing_team_id": "64546a3c97ca1b64c8f1426d",
+        "description_in_tournament":"quarterfinals",
+        "film_sources":["https://www.youtube.com/watch?v=osgXDEKq_CA"],
+        "stats_source":"TEXAS_UVA.xlsx"
+      }
+}
