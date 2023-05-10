@@ -2,6 +2,7 @@
 import json 
 import os
 from quadball.schema.db.stats_pb2 import * 
+from quadball.schema.db.league_pb2 import *
 from quadball.schema.db.season_pb2 import * 
 
 from google.protobuf.json_format import ParseDict
@@ -20,10 +21,19 @@ POSSESSION_PATH = relpath(
 SEASON_PATH = relpath(
         '..','test_data', 'schema','db','season.json'
     )
+
+LEAGUE_PATH = relpath(
+        '..','test_data', 'schema','db','league.json'
+    )
     
 @pytest.fixture
 def load_possesions():
     with open(POSSESSION_PATH) as f: 
+        return json.loads(f.read())
+
+@pytest.fixture
+def load_leagues():
+    with open(LEAGUE_PATH) as f: 
         return json.loads(f.read())
     
 @pytest.fixture
@@ -45,6 +55,23 @@ def test_db_possession(load_possesions):
             assert False, f"Parse exception occured at index {i}: {e}"
     assert True
     
+
+
+def test_db_league(load_leagues):
+    """
+        Make a specific version -> eventually generalize. 
+        We will have "test schema" by parsing all data 
+        in schema/statsheet to Protobuf format
+    """ 
+    
+    for k, obj in load_leagues.items():
+        league = League()
+        try: 
+            ParseDict(obj,league)
+        except Exception as e: 
+            assert False, f"Parse exception occured at key {k}: {e}"
+    assert True
+   
     
 def test_db_season(load_seasons):
     """
@@ -60,4 +87,3 @@ def test_db_season(load_seasons):
         except Exception as e: 
             assert False, f"Parse exception occured at key {k}: {e}"
     assert True
-   
