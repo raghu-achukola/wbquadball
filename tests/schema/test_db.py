@@ -7,6 +7,7 @@ from quadball.schema.db.season_pb2 import *
 from quadball.schema.db.team_pb2 import *
 from quadball.schema.db.player_pb2 import *
 from quadball.schema.db.tournament_pb2 import *  
+from quadball.schema.db.game_pb2 import Game
 
 from google.protobuf.json_format import ParseDict
 import pytest
@@ -42,6 +43,13 @@ PLAYER_PATH = relpath(
         '..','test_data', 'schema','db','player.json'    
 
 )
+
+GAME_PATH = relpath(
+        '..','test_data', 'schema','db','game.json'    
+
+)
+
+
 @pytest.fixture
 def load_possesions():
     with open(POSSESSION_PATH) as f: 
@@ -69,6 +77,13 @@ def load_tournaments():
 def load_players():
     with open(PLAYER_PATH) as f: 
         return json.loads(f.read())
+
+@pytest.fixture
+def load_games():
+    with open(GAME_PATH) as f: 
+        return json.loads(f.read())
+
+
 
 def test_db_possession(load_possesions):
     """
@@ -155,6 +170,22 @@ def test_db_players(load_players):
         player = Player()
         try: 
             ParseDict(obj,player)
+        except Exception as e: 
+            assert False, f"Parse exception occured at key {k}: {e}"
+    assert True
+
+
+def test_db_games(load_games):
+    """
+        Make a specific version -> eventually generalize. 
+        We will have "test schema" by parsing all data 
+        in schema/statsheet to Protobuf format
+    """ 
+    
+    for k, obj in load_games.items():
+        game = Game()
+        try: 
+            ParseDict(obj,game)
         except Exception as e: 
             assert False, f"Parse exception occured at key {k}: {e}"
     assert True
