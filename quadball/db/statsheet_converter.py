@@ -62,12 +62,50 @@ def convert_single_extra(extra:str, offense:str, defense:str, lookup_id: Callabl
 
     
 def _convert_game_time(gametime_str:str) -> int:
+    """
+        Gametimes are annotated as the statsheet as MMSS for sake of expediency
+        e.g 9 minutes, 23 seconds -> 0923. We need to convert this to actual number
+        of seconds for Data Model Purposes
+
+        TODO: some historical gametimes are annotated based on OT time in
+        descending (e.g OT-0403 = 4:03 left in OT). This is meant to be a convenience
+        as the statsheet is designed to be filled with information most convenient
+
+        Future instances might process this annotation as well 
+    """
     assert gametime_str.isnumeric() and len(gametime_str) == 4
     minutes, seconds = int(gametime_str[:2]), int(gametime_str[2:])
     return 60*minutes + seconds
 
         
 def get_player_team_from_ssp(offense:str,result:str, position:int) -> str:
+    """
+        Arguments: 
+        offense:        either 'A' or 'B' 
+        result:         any acceptable Result
+        position:       either 0, 1, 2, or 3 as described bloew
+
+        Returns: 
+        team:           either 'A' or 'B' (what team should be attached to the 
+                        player at specified position # in the StatSheetPossession)
+
+        Description: 
+        For the sake of statsheet convenience, player teams are not included for results.
+        The result informs the structure: 
+
+        "TC | 51,23 | 34" is read:
+        turnover forced by contact by DEFENSE #51 and #23 on OFFENSE #34 because
+        that is the only sensible interpretation. We exclude A and B on the sheet 
+        to facilitate live stat taking. 
+
+        As such, in parsing this function based on the position of the player (0th, 1st, 2nd, 3rd)
+        as below 
+
+        TD | 51, 23 | 34, 51
+        -    1    0    2   3        (yes, 1 then 0 | 2 then 3)
+        GP | 23 | 56
+        -    1    2
+    """
     teams = ['A','B']
     defense = teams[offense == 'A']
     if position in (2,3):
@@ -85,7 +123,17 @@ def convert_possession(
         ss_possession: raw.StatSheetPossession,
         lookup_id : Callable = lambda x,team_a: x ) -> model.Possession:
     possession = model.Possession()
-    
+    """
+        Arguments: 
+        ss_possession:      a Raw StatSheetPosssession Object
+        lookup_id:          a Callable that acts as a "Roster" object converting jersey numbers 
+                            for both teams into player names or IDs
+        
+        Returns:
+        possession:         the same possession written in the form of our Standard Data Model
+    """
+
+
     # Standard is "Team 'A' wins", if statsheet is taken with "Team B" winning, we will write a 
     # reverse() function so "Team 'A' wins"
     teams = ['A','B']
@@ -112,11 +160,15 @@ def convert_possession(
         extra_list = [convert_single_extra(extra_str,offense,defense,lookup_id) for extra_str in extra_strings]
         possession.extras.extend(extra_list)
 
+    # Given this current possession's offense and result, 
+    # convert get_player_team_from_ssp (which needs offense, result and possession) to a simpler function
+    # that focuses on the only variable input (possession) and returns True or False
     is_a = lambda position:  get_player_team_from_ssp(offense=offense, result=ss_possession.result, position = position)=='A'
     if ss_possession.primary: 
+        # ',' in the cell means two players
         if ',' in ss_possession.primary:
             # Yes, in this order player 1, player 0 
-            player_1, player_0 = ss_possession.primary.split(',')
+            player_1, player_0 = ss_possession.primary.split(',')               # TODO: will throw error if person puts 3 players by mistake
             possession.player_0_id = lookup_id(player_0, team_a =is_a(0))
             possession.player_1_id = lookup_id(player_1, team_a = is_a(1))
         else: 
