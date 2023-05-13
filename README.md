@@ -144,3 +144,6 @@ Inc 19
 
 Inc 20
 * Unit Testing/quadball.db: Add test data for all objects to validate schema and test backcompatibility
+* Quadball/db : Add docstrings for critical functions to improve readability
+* Quadball/db : Corrected minor issues that came up during Unit Testing
+* models/db : Documentation + ERD for the Canonical Data Model
