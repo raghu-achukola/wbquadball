@@ -127,3 +127,20 @@ pointing to Secret ^.
 * Tech Debt: note, we are overlevered
   * add unit testing for lambdas/api 
   * refactor shell scripts for CI/CD to functionalize deployment process
+
+
+Inc 19
+* AWS/Lambda: Alter environment variables for parse-statsheet to include DB API URL 
+* AWS/Lambda: Created lambda wbquadball-uw2-validate-game-metadata
+* CI/CD: Deploy lambda wbquadball-uw2-validate-game-metadata
+* AWS/API Gateway: Created API resource validate-game-metadata
+   * Added Trigger to GET method to call above Lambda
+* Templates/live-stats.xlsx: Standardize template for stat taking
+* Lambdas/parse-statsheet: 
+   * Read all three worksheets
+   * Use Roster Lookup API  to validate the ROSTERS Worksheet
+
+
+
+Inc 20
+* Unit Testing/quadball.db: Add test data for all objects to validate schema and test backcompatibility

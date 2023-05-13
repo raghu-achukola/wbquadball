@@ -1,0 +1,10 @@
+{
+    "TATE":{
+        "player_first_name": "TATE",
+        "player_last_name": "KAY",
+        "chases":false,
+        "beats":true,
+        "keeps":false,
+        "seeks":true
+    }
+}

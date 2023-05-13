@@ -1,0 +1,30 @@
+{
+    "USQ2023":{
+        "season_id": "USQ2023",
+        "league_id": "USQ",
+        "season_start_date":"2022-07-01T00:00:00Z",
+        "season_end_date":"2023-06-30T00:00:00Z",
+        "ruleset":{
+            "goal_value":10,
+            "floor_minutes":20,
+            "catch_value":35,
+            "endgame":"END_GAME_SCORE",
+            "endgame_target":60
+        }
+
+    }, 
+    "USQ15":{
+        "season_id": "USQ15",
+        "league_id": "USQ",
+        "season_start_date":"2021-07-01T00:00:00Z",
+        "season_end_date":"2022-06-30T00:00:00Z",
+        "ruleset":{
+            "goal_value":10,
+            "floor_minutes":20,
+            "catch_value":35,
+            "endgame":"END_GAME_SCORE",
+            "endgame_target":70
+        }
+    }
+}
+

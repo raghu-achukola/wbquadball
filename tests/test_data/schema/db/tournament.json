@@ -1,0 +1,8 @@
+{
+    "USQ Cup 15":{
+        "season_id": "USQ15",
+        "tournament_name": "US Quidditch Cup",
+        "tournament_start_date": "2022-04-23T14:00:00Z",
+        "two_day": true
+      }
+}

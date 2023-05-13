@@ -5,6 +5,8 @@ from typing import Iterable
 from google.protobuf.wrappers_pb2 import UInt32Value
 from quadball.db.rulesets import * 
 from google.protobuf.json_format import MessageToDict
+from quadball.statsheet.parser import * 
+from quadball.db.statsheet_converter import convert_possession
 
 
 class GameParser:
@@ -19,6 +21,15 @@ class GameParser:
                  film_links:list =[]) -> None:
         self.ruleset = ruleset if ruleset else RULESET_USQ_8_THRU_12 # This ruleset has the most games
         self.roster = roster
+        
+        self.player_lookup = lambda jersey_number, team_a: roster.get(
+            'A' if team_a else 'B',
+            {}
+        ).get(
+            str(jersey_number),
+            f"{team_a_id if team_a else team_b_id}-{jersey_number}"
+        )
+
         self.possessions = []
         self.team_a_id = team_a_id
         self.team_b_id = team_b_id
@@ -38,13 +49,21 @@ class GameParser:
         self.game.film_sources.extend(film_links)
 
 
+    def gen_possessions_from_statsheet(self, possessions:Iterable[StatSheetPossession]) -> Generator[Possession,None,None]:
+        for possession in possessions:
+            yield convert_possession(possession,self.player_lookup)
+            
     def populate_from_possessions(self, possessions:Iterable[Possession]) -> None:
         for i, possession in enumerate(possessions):
-            possession.possession_number.CopyFrom(UInt32Value(value = i))
+            possession.possession_number.CopyFrom(UInt32Value(value = i+1))
             possession.game_id = self.game_id
             self.process_possession(possession)
 
     def process_possession(self, possession: Possession):
+        """
+            Advance the Game parser by the possession supplied,
+            running score, extras, etc will increment based on value of possession
+        """
         self.possessions.append(possession)
         # Goal
         if PossessionResult.Name( possession.result) [0] == 'G': 
@@ -81,6 +100,14 @@ class GameParser:
     # We use reverse here because it alleviates the stress of handling/switching extras
     # Since extras are offense defense based, NOT 
     def reverse(self) ->  'GameParser':
+        """
+            self.reverse() creates a GameParser Object with team_a and team_b switched. 
+            This is to handle the future case of a live-taken statsheet needing to be processed
+            where team_a ended up losing. 
+
+            Remember that Team A is always taken as the winning team to simplify things. Therefore
+            we need the functionality to reverse() a GameParser object
+        """
         reversed = GameParser(
             game_id = self.game_id,
             roster = {'A':self.roster.get('B',{}), 'B':self.roster.get('A',{})},

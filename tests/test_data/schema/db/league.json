@@ -1,0 +1,14 @@
+{
+    "simple_league_usq":{
+        "league_id": "USQ",
+        "league_full_name": "US Quadball"
+    }, 
+    "simple_league_mlq":{
+        "league_id": "MLQ",
+        "league_full_name": "Major League Quadball"
+    },
+    "simple_league_iqa":{
+        "league_id": "IQA",
+        "league_full_name": "International Quadball Association"
+    }
+}
