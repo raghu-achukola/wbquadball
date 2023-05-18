@@ -1,5 +1,5 @@
 # Import flask functions
-from flask import Flask, render_template
+from flask import Flask, render_template,request
 import pandas as pd
 import json
 app = Flask(__name__)
@@ -27,7 +27,12 @@ def all():
         'tournaments':tournaments,
         'games':games
     }
- 
+
+@app.route('/statsheet')
+def gen_statsheet():
+    print('AAAH')
+    print(request.args)
+    return 'sup'
 
 # If name is main, run flask 
 if __name__ == '__main__':

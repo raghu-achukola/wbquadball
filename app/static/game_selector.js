@@ -87,12 +87,22 @@ function prep_statsheet(value, tourney, season){
         val = JSON.parse(value)
         console.log(val)
         console.log(`PREP_STATSHEET TRIGGERED WITH ${val._id}. Tourney ID: ${tourney}. Season : ${season}. Team A: ${val.team_a} Team B: ${val.team_b}`)
-       
+        button.addEventListener(
+            'click',
+            function() { downloadStatsheet(season, val._id, tourney, val.team_a, val.team_b, val.team_a, val.team_b)},
+            false
+        )
     }
 }
 
-function downloadStatsheet(){
-    console.log('Downlaoding Triggered')
+function downloadStatsheet(season_id, game_id, tournament_id, team_a_id, team_b_id, team_a_name, team_b_name){
+    console.log('Downloading Triggered')
+    const a = document.createElement('a')
+    a.href = '/statsheet'
+    a.download = 'sup.txt'
+    document.body.appendChild(a)
+    a.click()
+    document.body.removeChild(a)
 }
 
 
