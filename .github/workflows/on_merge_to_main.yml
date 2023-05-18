@@ -26,9 +26,28 @@ jobs:
         run: |
           cd deploy
           bash deploy_layer.sh
-      - name: Get latest layer version and run
+      - name: Deploy lambda api-reload-game
         run: |
           cd deploy
-          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-api-reload-game
+      - name: Deploy lambda parse-statsheet
+        run: |
+          cd deploy
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-parse-statsheet
+      - name: Deploy lambda register-entity
+        run: |
+          cd deploy
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-register-entity
+      - name: Deploy lambda roster-lookup
+        run: |
+          cd deploy
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-roster-lookup
+      - name: Deploy lambda validate-game-metadata
+        run: |
+          cd deploy
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-validate-game-metadata
+
+
+
 
 
