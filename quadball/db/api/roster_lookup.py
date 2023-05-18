@@ -6,8 +6,24 @@ from quadball.schema.db.team_pb2 import *
 from quadball.schema.db.player_pb2 import * 
 from quadball.schema.db.game_pb2 import *
 from google.protobuf.json_format import MessageToDict, ParseDict
+from concurrent.futures import ThreadPoolExecutor
+from itertools import repeat
 import bson
 
+def single_lookup(player_collection: pymongo.collection.Collection, player_key:str, player_name:str) -> dict: 
+    
+    player_first_name, *l = player_name.split()
+    player_last_name = ' '.join(l)
+    find_condition = {
+        'player_first_name':player_first_name.upper(),
+        'player_last_name':player_last_name.upper()
+    }
+    matches = [
+        str(result['_id']) 
+        for result in player_collection.find(find_condition, {'_id':1}) # Return only ids
+    ]
+
+    return player_key, matches, len(matches)        
 
 def roster_lookup(db: pymongo.database.Database, jersey_player_name_map:dict) -> dict:
     """
@@ -38,29 +54,18 @@ def roster_lookup(db: pymongo.database.Database, jersey_player_name_map:dict) ->
         'roster':{
         }
     }
-    for jersey_num, player_name in jersey_player_name_map.items(): 
-        # Names like Alex De Vries need to processed like: 
-        # first_name = Alex, last_name = 'De Vries' 
-
-        player_first_name, *l = player_name.split()
-        player_last_name = ' '.join(l)
-        find_condition = {
-            'player_first_name':player_first_name.upper(),
-            'player_last_name':player_last_name.upper()
-        }
-        matches = [
-            str(result['_id']) 
-            for result in player_coll.find(find_condition, {'_id':1}) # Return only ids
-        ]
-
-        response['roster'][jersey_num] = matches
-        if len(matches) == 1: 
-            response['matched'].append(jersey_num)
-        elif len(matches) > 1:
-            response['overmatched'].append(jersey_num)
-        else:
-            response['unmatched'].append(jersey_num)
-        
+    # Multithread the lookup
+    jersey_numbers, player_names = zip(*jersey_player_name_map.items())
+    with ThreadPoolExecutor(max_workers=20) as executor:
+        for result in executor.map(single_lookup,repeat(player_coll),jersey_numbers, player_names):
+            jersey_num, ids, result_count = result
+            if result_count > 1: 
+                response['overmatched'].append(jersey_num)
+            elif result_count == 1: 
+                response['matched'].append(jersey_num)
+            else:
+                response['unmatched'].append(jersey_num)
+            response['roster'][jersey_num] = ids 
     return response
 
         
