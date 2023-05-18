@@ -8,12 +8,14 @@ function reset_select(selectObject){
 
 function load_seasons(all_data, value){
     console.log(`LOAD_SEASONS TRIGGERED WITH ${value}`)
+    var seasonSelectorDiv = document.getElementById('season_selector')
+    var seasonSelect = document.getElementById('seasons')
+    reset_select(seasonSelect)
     if (value === ''){
-        document.getElementById('season_selector').setAttribute('style', "visibility: hidden")
+        seasonSelect.value = ''
+        seasonSelectorDiv.setAttribute('style', "visibility: hidden")
     }
     else{
-        var seasonSelectorDiv = document.getElementById('season_selector')
-        var seasonSelect = document.getElementById('seasons')
         seasonSelectorDiv.setAttribute('style', "")
         var seasons = all_data.seasons
         seasons.forEach(x => {
@@ -22,6 +24,7 @@ function load_seasons(all_data, value){
             }
         })
     }
+    seasonSelect.dispatchEvent(new Event('change'))
 }
 
 function load_tournaments(all_data, value){
@@ -30,6 +33,7 @@ function load_tournaments(all_data, value){
     var tournamentSelect = document.getElementById('tournaments')
     reset_select(tournamentSelect)
     if (value === ''){
+        tournamentSelect.value = ''
         tournamentSelectorDiv.setAttribute('style', "visibility: hidden")
     }
     else{
@@ -42,15 +46,17 @@ function load_tournaments(all_data, value){
         })
 
     }
+    tournamentSelect.dispatchEvent(new Event('change'))
 }
 
 function load_games(all_data,value){
+    var gameSelectorDiv = document.getElementById('game_selector')
+    var gameSelect = document.getElementById('games')
+    reset_select(gameSelect)
     if (value === ''){
-        document.getElementById('game_selector').setAttribute('style', "visibility: hidden")
+        gameSelectorDiv.setAttribute('style', "visibility: hidden")
     }
     else{
-        var gameSelectorDiv = document.getElementById('game_selector')
-        var gameSelect = document.getElementById('games')
         gameSelectorDiv.setAttribute('style', "")
         var games = all_data.games
         games.forEach(x => {
