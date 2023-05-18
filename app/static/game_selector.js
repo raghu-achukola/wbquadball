@@ -60,7 +60,7 @@ fetch('/all').then(x => x.json()).then(
         var leagueSelector = document.getElementById('leagues');
         var seasonSelector = document.getElementById('seasons');
         var tournamentSelector = document.getElementById('tournaments');
-        var teamSelector = document.getElementById('teams');
+        var game_selector = document.getElementById('games');
         data.leagues.forEach(x => add_to_selector(leagueSelector,x))
 
         leagueSelector.addEventListener(
