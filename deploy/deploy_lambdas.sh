@@ -1,55 +1,18 @@
-## Deploying Lambda: parse-statsheet
-mkdir deploy_wbquadball-uw2-parse-statsheet
-echo $1
-cd deploy_wbquadball-uw2-parse-statsheet
-cp ../../lambdas/wbquadball-uw2-parse-statsheet.py .
-zip deploy_wbquadball-uw2-parse-statsheet.zip wbquadball-uw2-parse-statsheet.py
-aws s3 cp deploy_wbquadball-uw2-parse-statsheet.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-parse-statsheet.zip
+## Deploying Lambda:
+DEPLOY_DIR="deploy_${1}"
+ZIP_DIR="${DEPLOY_DIR}.zip"
+S3_PATH="s3://wbquadball-uw2-deployment/lambdas/${ZIP_DIR}"
+LAMBDA_PATH="../../lambdas/${1}.py"
+
+echo "DEPLOYING LAMBDA : ${1} with attached layer ${2}"
+mkdir $DEPLOY_DIR
+cd $DEPLOY_DIR
+cp $LAMBDA_PATH .
+zip $ZIP_DIR "${1}.py"
+aws s3 cp $ZIP_DIR $S3_PATH
 cd ..
-rm -r deploy_wbquadball-uw2-parse-statsheet
-aws lambda update-function-code --function-name wbquadball-uw2-parse-statsheet --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-parse-statsheet.zip 
+rm -r $DEPLOY_DIR
+aws lambda update-function-code --function-name $1 --s3-bucket wbquadball-uw2-deployment --s3-key "lambdas/${ZIP_DIR}"
 # Resource conflict exception will result due to simultaneous updates unless we wait until function updated
-aws lambda wait function-updated --function-name wbquadball-uw2-parse-statsheet
-aws lambda update-function-configuration --function-name wbquadball-uw2-parse-statsheet --layers $1
-## TODO: rewrite in better format (take input parameters?)
-## Deploying Lambda: register-entity
-mkdir deploy_wbquadball-uw2-register-entity
-echo $1
-cd deploy_wbquadball-uw2-register-entity
-cp ../../lambdas/wbquadball-uw2-register-entity.py .
-zip deploy_wbquadball-uw2-register-entity.zip wbquadball-uw2-register-entity.py
-aws s3 cp deploy_wbquadball-uw2-register-entity.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-register-entity.zip
-cd ..
-rm -r deploy_wbquadball-uw2-register-entity
-aws lambda update-function-code --function-name wbquadball-uw2-register-entity --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-register-entity.zip 
-# Resource conflict exception will result due to simultaneous updates unless we wait until function updated
-aws lambda wait function-updated --function-name wbquadball-uw2-register-entity
-aws lambda update-function-configuration --function-name wbquadball-uw2-register-entity --layers $1
-## TODO: Really find a better way to do this, we're just copy-pasting code now
-## Deploying Lambda: roster-lookup
-mkdir deploy_wbquadball-uw2-roster-lookup
-echo $1
-cd deploy_wbquadball-uw2-roster-lookup
-cp ../../lambdas/wbquadball-uw2-roster-lookup.py .
-zip deploy_wbquadball-uw2-roster-lookup.zip wbquadball-uw2-roster-lookup.py
-aws s3 cp deploy_wbquadball-uw2-roster-lookup.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-roster-lookup.zip
-cd ..
-rm -r deploy_wbquadball-uw2-roster-lookup
-aws lambda update-function-code --function-name wbquadball-uw2-roster-lookup --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-roster-lookup.zip 
-# Resource conflict exception will result due to simultaneous updates unless we wait until function updated
-aws lambda wait function-updated --function-name wbquadball-uw2-roster-lookup
-aws lambda update-function-configuration --function-name wbquadball-uw2-roster-lookup --layers $1
-## TODO: Really find a better way to do this, we're just copy-pasting code now
-## Deploying Lambda: validate-game-metadata
-mkdir deploy_wbquadball-uw2-validate-game-metadata
-echo $1
-cd deploy_wbquadball-uw2-validate-game-metadata
-cp ../../lambdas/wbquadball-uw2-validate-game-metadata.py .
-zip deploy_wbquadball-uw2-validate-game-metadata.zip wbquadball-uw2-validate-game-metadata.py
-aws s3 cp deploy_wbquadball-uw2-validate-game-metadata.zip s3://wbquadball-uw2-deployment/lambdas/deploy_wbquadball-uw2-validate-game-metadata.zip
-cd ..
-rm -r deploy_wbquadball-uw2-validate-game-metadata
-aws lambda update-function-code --function-name wbquadball-uw2-validate-game-metadata --s3-bucket wbquadball-uw2-deployment --s3-key lambdas/deploy_wbquadball-uw2-validate-game-metadata.zip 
-# Resource conflict exception will result due to simultaneous updates unless we wait until function updated
-aws lambda wait function-updated --function-name wbquadball-uw2-validate-game-metadata
-aws lambda update-function-configuration --function-name wbquadball-uw2-validate-game-metadata --layers $1
+aws lambda wait function-updated --function-name $1
+aws lambda update-function-configuration --function-name $1 --layers $2
