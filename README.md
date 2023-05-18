@@ -144,3 +144,11 @@ Inc 19
 
 Inc 20
 * Unit Testing/quadball.db: Add test data for all objects to validate schema and test backcompatibility
+* Quadball/statsheet : Docstrings for all functions in statsheet converter
+* models/ : Entity Relationship Diagram + summary for DB and STATSHEET domains
+
+Inc 21
+* Quadball/db : Change API to multithread the roster lookup to speed up retrieval 
+
+Inc 22
+*
