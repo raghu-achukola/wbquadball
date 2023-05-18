@@ -151,4 +151,11 @@ Inc 21
 * Quadball/db : Change API to multithread the roster lookup to speed up retrieval 
 
 Inc 22
-*
+* Quadball/db : Add api-reload-game functionality 
+* Lambdas/api-reload-game:   Add api-reload-game lambda functionality
+* AWS/API Gateway: Created API resource api-reload-game
+   * Added Trigger to GET method to call above Lambda
+* AWS/Lambda: Create lambda wbquadball-uw2-api-reload-game
+* CI/CD: Refactor CI/CD to modularize each deployment (using the same code to deploy all lambdas rather than copy-pasting)
+* AWS/IAM: Create policy to give access to a mongo-rw role in AWS and attach policy to lambda execution role
+
