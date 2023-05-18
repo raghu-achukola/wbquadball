@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<!-- Adding HTML Template so it will be easier to use JS/ formatting later-->
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <script src="{{ url_for('static', filename='game_selector.js') }}" defer></script>
+</head>
+
+<body>
+<h1> Download statsheet </h1>
+<div id="league_selector">
+<b>League: </b>
+<select name="leagues" id="leagues">
+    <option value="">--Please choose an option--</option>
+</select>
+</div>
+<br />
+<div id="season_selector"  style="visibility: hidden" >
+    <b>Season: </b>
+    <select name="seasons" id="seasons">
+        <option value="">--Please choose an option--</option>
+    </select>
+</div>
+<br />
+<div id="tournament_selector"  style="visibility: hidden" >
+<b>Tournament: </b>
+<select name="tournaments" id="tournaments">
+    <option value="">--Please choose an option--</option>
+</select>
+</div>
+<br />
+<div id="game_selector"  style="visibility: hidden">
+    <b>Game: </b>
+    <select name="games" id="games">
+        <option value="">--Please choose an option--</option>
+    </select>
+    </div>
+    <br />
+
+<!-- Add javascript function basic INLINE to see if it works, then next increment extract it -->
+<button onclick="buttonClicked()">Download spreadsheet!</button>
+
+</h3> 
+</body>
+
+
+</html>

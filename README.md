@@ -159,3 +159,5 @@ Inc 22
 * CI/CD: Refactor CI/CD to modularize each deployment (using the same code to deploy all lambdas rather than copy-pasting)
 * AWS/IAM: Create policy to give access to a mongo-rw role in AWS and attach policy to lambda execution role
 
+Inc 23
+* App:   Basic (super-basic) template for a Flask App with a form frontend to download/ upload statsheets 
