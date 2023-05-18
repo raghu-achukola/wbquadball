@@ -1,6 +1,7 @@
 # Import flask functions
 from flask import Flask, render_template
 import pandas as pd
+import json
 app = Flask(__name__)
 
 
@@ -12,11 +13,19 @@ def root():
 
 @app.route('/all')
 def all(): 
+    with open('data/leagues.json') as f: 
+        leagues = json.loads(f.read())
+    with open('data/seasons.json') as f: 
+        seasons = json.loads(f.read())
+    with open('data/tournaments.json') as f: 
+        tournaments = json.loads(f.read())
+    with open('data/games.json') as f: 
+        games = json.loads(f.read())
     return {
-        'leagues':["USQ","MLQ","IQA"],
-        'seasons':["USQ8","USQ9","USQ10","USQ11","USQ12","USQ13","USQ15","USQ2023"],
-        'tournaments':["USQ Cup 15"],
-        'games':["TEXAS v UVA 140-125*"]
+        'leagues':leagues,
+        'seasons':seasons,
+        'tournaments':tournaments,
+        'games':games
     }
  
 
