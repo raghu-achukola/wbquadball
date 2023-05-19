@@ -1,4 +1,1 @@
-[
-    {  "tournament_id":"192340", "_id":"23423451","display_name":"TEXAS v UVA quarterfinals", "team_a":"TEXAS","team_b":"UVA"},
-    {  "tournament_id":"652253", "_id":"65324345","display_name":"UTSA v HARVARD finals", "team_a":"UTSA","team_b":"HARVARD"}
-]
+[{"_id": "6456d4fb2d939e61c6df6744", "tournament_id": "645470fe21129acf2f045bdf", "winning_team_id": "64546a4097ca1b64c8f14273", "winning_team_score": 140, "losing_team_score": 125, "losing_team_extras": "*", "losing_team_id": "64546a3c97ca1b64c8f1426d"}]
