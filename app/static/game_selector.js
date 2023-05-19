@@ -95,7 +95,7 @@ function downloadStatsheet(season_id, game_id, tournament_id, team_a_id, team_b_
     console.log('Downloading Triggered')
     const a = document.createElement('a')
     a.href = `/statsheet?season_id=${season_id}&game_id=${game_id}&tournament_id=${tournament_id}&team_a_id=${team_a_id}&team_b_id=${team_b_id}&team_a_name=${team_a_name}&team_b_name=${team_b_name}`
-    a.download = `${team_a_name}_${team_b_name}.txt`
+    a.download = `${team_a_name}_${team_b_name}.xlsx`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)

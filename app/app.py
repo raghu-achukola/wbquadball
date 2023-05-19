@@ -2,11 +2,13 @@
 from flask import Flask, render_template,request
 import pandas as pd
 import json
+import openpyxl
+from io import BytesIO
+from pkgutil import get_data
 app = Flask(__name__)
 
 
-# We want to store the html somewhere else though, not just as a giant string. 
-# Enter render_template
+
 @app.route('/')
 def root(): 
     return render_template('index.html') 
@@ -28,11 +30,33 @@ def all():
         'games':games
     }
 
+
+
+
 @app.route('/statsheet')
 def gen_statsheet():
     print('AAAH')
     print(request.args)
-    return 'sup'
+    args = request.args
+    ## Theres a better way to be doing this i can't remember it 
+    # off the top of my head    
+    excel_bytes = get_data('quadball','resources/statsheet/STATSHEET_TEMPLATE.xlsx')
+    wb = openpyxl.load_workbook(BytesIO(excel_bytes))
+    metadata = wb['METADATA'] 
+    metadata.cell(1,2).value = args.get('season_id')
+    metadata.cell(2,2).value = args.get('game_id')
+    metadata.cell(3,2).value = args.get('tournament_id')
+    metadata.cell(4,2).value = args.get('team_a_id')
+    metadata.cell(5,2).value = args.get('team_b_id')
+    possessions = wb['POSSESSIONS']
+    possessions.cell(2,3).value = args.get('team_a_name')
+    possessions.cell(4,3).value = args.get('team_b_name')
+    # Transform the workbook
+    buffer = BytesIO()
+    buffer.seek(0)
+    wb.save(buffer)
+    buffer.seek(0)
+    return buffer.read()
 
 # If name is main, run flask 
 if __name__ == '__main__':
