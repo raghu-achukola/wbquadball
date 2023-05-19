@@ -20,7 +20,7 @@ function load_seasons(all_data, value){
         var seasons = all_data.seasons
         seasons.forEach(x => {
             if (x.league_id === value){
-                add_to_selector(seasonSelect,x.display_name,x.season_id)
+                add_to_selector(seasonSelect,x.season_id,x.season_id)
             }
         })
     }
@@ -42,7 +42,7 @@ function load_tournaments(all_data, value){
         var tournaments = all_data.tournaments
         tournaments.forEach(x => {
             if (x.season_id === value){
-                add_to_selector(tournamentSelect,x.display_name,x._id)
+                add_to_selector(tournamentSelect,x.tournament_name,x._id)
             }
         })
 
@@ -66,7 +66,7 @@ function load_games(all_data,value){
                 // Custom code for this to store the entirety of the option
                 var opt = document.createElement('option');
                 opt.value =JSON.stringify(x)
-                opt.innerHTML = x.display_name
+                opt.innerHTML = `${x.team_a_name} vs ${x.team_b_name} : ${x.description_in_tournament ?? ''}`
                 gameSelect.appendChild(opt)
             }
         })
@@ -86,8 +86,8 @@ function prep_statsheet(value, tourney, season){
 
         val = JSON.parse(value)
         console.log(val)
-        console.log(`PREP_STATSHEET TRIGGERED WITH ${val._id}. Tourney ID: ${tourney}. Season : ${season}. Team A: ${val.team_a} Team B: ${val.team_b}`)
-        button.onclick = function() { downloadStatsheet(season, val._id, tourney, val.team_a, val.team_b, val.team_a, val.team_b)}
+        console.log(`PREP_STATSHEET TRIGGERED WITH ${val._id}. Tourney ID: ${tourney}. Season : ${season}. Team A: ${val.team_a_name} Team B: ${val.team_b_name}`)
+        button.onclick = function() { downloadStatsheet(season, val._id, tourney, val.winning_team_id, val.losing_team_id, val.team_a_name, val.team_b_name)}
     }
 }
 
@@ -95,7 +95,7 @@ function downloadStatsheet(season_id, game_id, tournament_id, team_a_id, team_b_
     console.log('Downloading Triggered')
     const a = document.createElement('a')
     a.href = `/statsheet?season_id=${season_id}&game_id=${game_id}&tournament_id=${tournament_id}&team_a_id=${team_a_id}&team_b_id=${team_b_id}&team_a_name=${team_a_name}&team_b_name=${team_b_name}`
-    a.download = `${team_a_name}_${team_b_name}.txt`
+    a.download = `${team_a_name}_${team_b_name}.xlsx`
     document.body.appendChild(a)
     a.click()
     document.body.removeChild(a)
@@ -118,7 +118,7 @@ fetch('/all').then(x => x.json()).then(
         var seasonSelector = document.getElementById('seasons');
         var tournamentSelector = document.getElementById('tournaments');
         var gameSelector = document.getElementById('games');
-        data.leagues.forEach(x => add_to_selector(leagueSelector,x.display_name,x.display_name))
+        data.leagues.forEach(x => add_to_selector(leagueSelector,x.league_id,x.league_id))
 
         leagueSelector.addEventListener(
             'change',
