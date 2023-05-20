@@ -46,6 +46,10 @@ jobs:
         run: |
           cd deploy
           aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-validate-game-metadata
+      - name: Deploy lambda nightly-db-public-export
+        run: |
+          cd deploy
+          aws lambda list-layer-versions --layer-name quadball --region us-west-2 --query 'LayerVersions[0].LayerVersionArn' | sed 's/\r//g' | xargs bash deploy_lambdas.sh wbquadball-uw2-nightly-db-public-export
 
 
 
