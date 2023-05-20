@@ -161,3 +161,17 @@ Inc 22
 
 Inc 23
 * App:   Basic (super-basic) template for a Flask App with a form frontend to download/ upload statsheets 
+
+Inc 24
+* App/JS:      Add to the template to expect input data in the canonical data model format. The Flask application will then allow the user to select any of the existing games and existing games only. 
+* App/Python:  use openpyxl to prepare the excel template inserting team names and team ids and then allowing a download of the formatted spreadsheet
+
+Inc 25
+* AWS/S3: Create S3 bucket wbquadball-uw2-public-metadata-storage. Exports will be located in this S3 Bucket. For all data that doesn't need near-real-time updates, this S3 access will provide a much cheaper data access model than querying MongoDB itself. Alter the bucket policy to allow public read (but not public write) access.  
+* AWS/Lambda : Create lambda wbquadball-uw2-nightly-db-public-export. The lambda handler will export the registrable collections (league, season, team, game, tournament) to json files in the S3 bucket. 
+* AWS/Lambda or Eventbridge: Create crontab schedule to run the export lambda every day at 6 AM UTC
+* AWS/IAM: Create policy to give access to a mongo-ro role in AWS and attach policy to lambda execution role
+
+
+Inc 26 
+* App: Alter app to use the S3 public URL 
