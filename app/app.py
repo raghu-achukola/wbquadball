@@ -1,5 +1,6 @@
 # Import flask functions
 from flask import Flask, render_template,request
+import requests
 import pandas as pd
 import json
 from pkgutil import get_data
@@ -7,7 +8,7 @@ import openpyxl
 from io import BytesIO
 app = Flask(__name__)
 
-
+PUBLIC_METADATA_BUCKET_URL = 'https://wbquadball-uw2-public-metadata-storage.s3.us-west-2.amazonaws.com' 
 # We want to store the html somewhere else though, not just as a giant string. 
 # Enter render_template
 @app.route('/')
@@ -16,29 +17,17 @@ def root():
 
 @app.route('/all')
 def all(): 
-    with open('data/leagues.json') as f: 
-        leagues = json.loads(f.read())
-    with open('data/seasons.json') as f: 
-        seasons = json.loads(f.read())
-    with open('data/tournaments.json') as f: 
-        tournaments = json.loads(f.read())
-    with open('data/games.json') as f: 
-        games = json.loads(f.read())
-    with open('data/teams.json') as f: 
-        teams = json.loads(f.read())
+    LEAGUE_PREFIX = PUBLIC_METADATA_BUCKET_URL + '/db_snapshot/{}.json'
+    result = {collection_name: requests.get(LEAGUE_PREFIX.format(collection_name)).json() for collection_name in ('leagues','seasons','tournaments','teams','games')}
     games_x_teams = []
-    team_dict = {team['_id']:team['team_id'] for team in teams}
-    for g in games: 
+    team_dict = {team['_id']:team['team_id'] for team in result['teams']}
+    for g in result['games']: 
         game = g.copy()
         game['team_a_name'] = team_dict[game['winning_team_id']]
         game['team_b_name'] = team_dict[game['losing_team_id']]
         games_x_teams.append(game)
-    return {
-        'leagues':leagues,
-        'seasons':seasons,
-        'tournaments':tournaments,
-        'games':games_x_teams
-    }
+    result['games'] = games_x_teams
+    return result
 
 @app.route('/statsheet')
 def gen_statsheet():
