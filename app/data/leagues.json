@@ -1,6 +1,1 @@
-[
-    {"league_id":"USQ","display_name":"USQ"},
-    {"league_id":"IQA","display_name":"IQA"},
-    {"league_id":"MLQ","display_name":"MLQ"}
-    
-]
+[{"_id": "643b55314ed8e0fd43ff5210", "league_id": "USQ", "league_full_name": "US Quadball"}]
