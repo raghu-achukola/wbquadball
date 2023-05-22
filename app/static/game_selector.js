@@ -1,4 +1,21 @@
 
+function sanitize_film_links(film_list){
+    if (typeof film_list == 'undefined') {
+        return encodeURIComponent('[]')
+    }
+    text = encodeURIComponent('[')
+    for (i = 0; i < film_list.length; i++){
+        if (i != 0){
+            text += encodeURIComponent(',')
+        }
+        text += encodeURIComponent('"')
+        text += encodeURIComponent(film_list[i])
+        text += encodeURIComponent('"')
+        
+    }
+    return text + encodeURIComponent(']')
+}
+
 function reset_select(selectObject){
     var i, L = selectObject.options.length - 1;
     for(i = L; i >= 1; i--) {   // i >=1 so it leaves the "last" aka "first" object the blank state
@@ -86,15 +103,15 @@ function prep_statsheet(value, tourney, season){
 
         val = JSON.parse(value)
         console.log(val)
-        console.log(`PREP_STATSHEET TRIGGERED WITH ${val._id}. Tourney ID: ${tourney}. Season : ${season}. Team A: ${val.team_a_name} Team B: ${val.team_b_name}`)
-        button.onclick = function() { downloadStatsheet(season, val._id, tourney, val.winning_team_id, val.losing_team_id, val.team_a_name, val.team_b_name)}
+        console.log(`PREP_STATSHEET TRIGGERED WITH ${val._id}. Tourney ID: ${tourney}. Season : ${season}. Team A: ${val.team_a_name} Team B: ${val.team_b_name} Film:${encodeURIComponent(val.film_sources)}`)
+        button.onclick = function() { downloadStatsheet(season, val._id, tourney, val.winning_team_id, val.losing_team_id, val.team_a_name, val.team_b_name, sanitize_film_links(val.film_sources))}
     }
 }
 
-function downloadStatsheet(season_id, game_id, tournament_id, team_a_id, team_b_id, team_a_name, team_b_name){
+function downloadStatsheet(season_id, game_id, tournament_id, team_a_id, team_b_id, team_a_name, team_b_name,film_sources){
     console.log('Downloading Triggered')
     const a = document.createElement('a')
-    a.href = `/statsheet?season_id=${season_id}&game_id=${game_id}&tournament_id=${tournament_id}&team_a_id=${team_a_id}&team_b_id=${team_b_id}&team_a_name=${team_a_name}&team_b_name=${team_b_name}`
+    a.href = `/statsheet?season_id=${season_id}&game_id=${game_id}&tournament_id=${tournament_id}&team_a_id=${team_a_id}&team_b_id=${team_b_id}&team_a_name=${team_a_name}&team_b_name=${team_b_name}&film_sources=${film_sources}`
     a.download = `${team_a_name}_${team_b_name}.xlsx`
     document.body.appendChild(a)
     a.click()
