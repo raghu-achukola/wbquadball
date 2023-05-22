@@ -98,3 +98,31 @@ def find(db:pymongo.database.Database ,obj_id:str, obj_type:str) -> Any:
     # We call the individual find_* functions using PARSED proto-objects
     # In this way we ensure schema validation when writing to our db
     return func(db[collection_name],obj_id)
+
+
+def find_all(db:pymongo.database.Database, obj_type:str, ids_and_links_only = True) -> Any:
+    """
+        find_all takes a snapshot of the entire collection
+    """
+
+    mapper = {
+        'game':('games',find_game, Game),
+        'league':('leagues',find_league, League), 
+        'season':('seasons',find_season,Season),
+        'tournament':('tournaments',find_tournament,Tournament),
+        'team':('teams',find_team,Team),
+        'player':('players',find_player,Player)
+    }
+
+    # This will get caught as a 400 error in the API layer. We want exceptions
+    # being thrown if invalid API parameters are called 
+
+    if obj_type not in mapper:
+        raise Exception(f'Register called with invalid obj_type: {obj_type}')
+    
+    collection_name, func, proto_struct = mapper[obj_type]
+    
+
+    # We call the individual find_* functions using PARSED proto-objects
+    # In this way we ensure schema validation when writing to our db
+    return func(db[collection_name],obj_id)

@@ -27,6 +27,7 @@ def all():
         game['team_b_name'] = team_dict[game['losing_team_id']]
         games_x_teams.append(game)
     result['games'] = games_x_teams
+
     return result
 
 @app.route('/statsheet')
@@ -44,6 +45,9 @@ def gen_statsheet():
     metadata.cell(3,2).value = args.get('tournament_id')
     metadata.cell(4,2).value = args.get('team_a_id')
     metadata.cell(5,2).value = args.get('team_b_id')
+    film_sources = args.get('film_sources')
+    for i, link in enumerate(json.loads(film_sources)):
+        metadata.cell(6,2+i).value = link
     possessions = wb['POSSESSIONS']
     possessions.cell(2,3).value = args.get('team_a_name')
     possessions.cell(4,3).value = args.get('team_b_name')
