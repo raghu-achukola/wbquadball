@@ -58,26 +58,6 @@ def extract_sheets(workbook:Workbook) -> Tuple[Worksheet, Worksheet, Worksheet]:
         for ws in [WORKSHEET_POSSESSIONS, WORKSHEET_ROSTER, WORKSHEET_METADATA] 
     )
 
-def process_possessions(possession_worksheet:Worksheet) -> list[Possession]:
-    """
-        process_possessions takes in
-
-        INPUTS: 
-        possession_worksheet :  the worksheet that contains possession information
-                                in the template given
-        
-        and returns
-
-        OUTPUTS: 
-        possessions           : a list of Possession (Mongodb Data Model) objects
-    """
-    possessions = []
-    
-    for statsheet_possession in gen_statsheet_possessions(possession_worksheet):
-        possession = convert_possession(statsheet_possession)
-        possessions.append(possession)
-    
-    return possessions
 
 def verify_metadata_sheet(metadata_worksheet:Worksheet)-> Tuple[dict,dict]:
     # TODO: This method will eventually contain the logic where all the IDs in the METADATA worksheet
@@ -115,14 +95,16 @@ def verify_roster_sheet (roster_worksheet: Worksheet):
         full_url = API_ENDPOINT.format(
             playerjson= urllib.parse.quote_plus(json.dumps(roster))
         )
-        return requests.get(full_url)
+        return requests.get(full_url).json()
 
     # Multithread the lookup
     with ThreadPoolExecutor(max_workers=2) as executor:
         response_a, response_b = executor.map(roster_api_call, [a_players,b_players])
+        for resp in (response_a,response_b):
+            assert not resp['response']['overmatched'] and not resp['response']['unmatched']
 
 
-    return response_a.json(), response_b.json()
+    return response_a,response_b
 
 def lambda_handler(event, context) -> dict:
     s3 = boto3.client('s3')
@@ -138,20 +120,18 @@ def lambda_handler(event, context) -> dict:
         print(e)
         return {}
     
-    possessions = process_possessions(ws_possessions)
+    possessions = gen_statsheet_possessions(ws_possessions)
     a_roster, b_roster = verify_roster_sheet(ws_roster)
-
     game_parser = GameParser(
         game_id = metadata['objects']['game']['_id']['$oid'],
-        roster = {'A':a_roster,'B':b_roster},
+        roster = {'A':a_roster['response']['roster'],'B':b_roster['response']['roster']},
         ruleset = ParseDict(metadata['objects']['ruleset'],Ruleset()),
         tournament_id= metadata['objects']['game']['tournament_id'],
         team_a_id= metadata['objects']['team_a']['_id']['$oid'],
         team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
-
-    game_parser.populate_from_possessions(possessions)
-
+    game_parser.populate_from_possessions(game_parser.gen_possessions_from_statsheet(possessions))
+    print(game_parser.possessions)
     print(game_parser)
     print(MessageToJson(game_parser.game))
     return {

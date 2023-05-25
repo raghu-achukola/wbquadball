@@ -118,10 +118,11 @@ def get_player_team_from_ssp(offense:str,result:str, position:int) -> str:
         return defense
     return offense
 
+
 #TODO: implement
 def convert_possession(
         ss_possession: raw.StatSheetPossession,
-        lookup_id : Callable = lambda x,team_a: x ) -> model.Possession:
+        lookup_id : Callable = None) -> model.Possession:
     possession = model.Possession()
     """
         Arguments: 
@@ -133,7 +134,8 @@ def convert_possession(
         possession:         the same possession written in the form of our Standard Data Model
     """
 
-
+    if lookup_id is None: 
+        lookup_id = lambda x, team_a : x
     # Standard is "Team 'A' wins", if statsheet is taken with "Team B" winning, we will write a 
     # reverse() function so "Team 'A' wins"
     teams = ['A','B']
