@@ -56,7 +56,7 @@ def convert_single_extra(extra:str, offense:str, defense:str, lookup_id: Callabl
         model_extra.extra_team_is_offense.CopyFrom( wrappers.BoolValue(value = (team == offense)))
     # Some extras have no player (S, TO)
     if player:
-        model_extra.player_id = lookup_id(player, team_a = (team == 'A'))
+        model_extra.player_id = lookup_id(player,  (team == 'A'))
     return model_extra
 
 
@@ -171,18 +171,18 @@ def convert_possession(
         if ',' in ss_possession.primary:
             # Yes, in this order player 1, player 0 
             player_1, player_0 = ss_possession.primary.split(',')               # TODO: will throw error if person puts 3 players by mistake
-            possession.player_0_id = lookup_id(player_0, team_a =is_a(0))
-            possession.player_1_id = lookup_id(player_1, team_a = is_a(1))
+            possession.player_0_id = lookup_id(player_0, is_a(0))
+            possession.player_1_id = lookup_id(player_1, is_a(1))
         else: 
-            possession.player_1_id = lookup_id(ss_possession.primary,team_a = is_a(1))
+            possession.player_1_id = lookup_id(ss_possession.primary,is_a(1))
 
     if ss_possession.secondary: 
         if ',' in ss_possession.secondary:
             player_2, player_3 = ss_possession.secondary.split(',')
-            possession.player_2_id = lookup_id(player_2, team_a = is_a(2))
-            possession.player_3_id = lookup_id(player_3, team_a = is_a(3))
+            possession.player_2_id = lookup_id(player_2, is_a(2))
+            possession.player_3_id = lookup_id(player_3, is_a(3))
         else: 
-            possession.player_2_id = lookup_id(ss_possession.secondary, team_a = is_a(2))
+            possession.player_2_id = lookup_id(ss_possession.secondary, is_a(2))
         
     return possession
 
