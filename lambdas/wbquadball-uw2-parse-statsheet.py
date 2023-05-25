@@ -10,8 +10,9 @@ from quadball.statsheet.parser import gen_statsheet_possessions
 # Increment 10 -> test lambda by converting whole possessions
 from quadball.db.statsheet_converter import convert_possession 
 # Increment 11 -> test lambda (unit testing) by returning (not just printing) last possession
-from google.protobuf.json_format import MessageToJson, ParseDict
+from google.protobuf.json_format import MessageToJson, ParseDict,MessageToDict
 from quadball.schema.db.stats_pb2 import Possession
+from quadball.schema.db.game_pb2 import Game
 
 #Increment 19 ->  Multithread the API calls necessary here to increase speed
 from concurrent.futures import ThreadPoolExecutor
@@ -106,6 +107,14 @@ def verify_roster_sheet (roster_worksheet: Worksheet):
 
     return response_a,response_b
 
+
+def reload(game:Game,possessions:list[Possession]):
+    API_ENDPOINT = os.environ['API_ENDPOINT']+'/reload-game/{game_id}'
+    json_obj = [MessageToDict(p,preserving_proto_field_name=True) for p in possessions]
+    actual = API_ENDPOINT.format(game_id = game._id)
+    return requests.put(actual,json =json_obj ).json()
+    
+
 def lambda_handler(event, context) -> dict:
     s3 = boto3.client('s3')
     bucket, obj = extract_first_file_from_event(event)
@@ -132,6 +141,9 @@ def lambda_handler(event, context) -> dict:
         team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
     game_parser.populate_from_possessions(game_parser.gen_possessions_from_statsheet(possessions))
+    print(reload(game_parser.game,game_parser.possessions))
+  
+    
     # print(game_parser.possessions)
     # print(game_parser)
     # print(MessageToJson(game_parser.game))
