@@ -61,6 +61,6 @@ def lambda_handler(event,  context ) -> dict:
     mongo_client, db_name = initialize_connection()
     s3_client = boto3.client('s3')
     db = mongo_client[db_name]
-    collections =  ('leagues','seasons','tournaments','teams','games')
+    collections =  ('leagues','seasons','tournaments','teams','games','possessions')
     with ThreadPoolExecutor(10) as executor:
         executor.map(export_collection,repeat(db),repeat(s3_client), collections)

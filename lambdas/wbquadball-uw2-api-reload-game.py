@@ -50,9 +50,9 @@ def lambda_handler(event,  context ) -> dict:
 
     # Step 1 -> Retrieve game
     # Step 2 -> Parse Possessions
+    print(event)
     game_id = event.get('pathParameters',{}).get('proxy',{})
-    qsp = event.get('queryStringParameters',{})
-    possessions = json.loads(qsp.get('possessions',''))
+    possessions = json.loads(event.get('body',[]))
 
     try:
         possession_objects = [ParseDict(possession, Possession()) for possession in possessions]
