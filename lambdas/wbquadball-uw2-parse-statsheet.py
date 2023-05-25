@@ -121,20 +121,21 @@ def lambda_handler(event, context) -> dict:
         return {}
     
     possessions = gen_statsheet_possessions(ws_possessions)
-    a_roster, b_roster = verify_roster_sheet(ws_roster)
+    # GameParser requires values of roster lookup dictionary to be STRINGS not LISTS
+    a_roster, b_roster = [{k:v[0] for k,v in resp['response']['roster'].items()} for resp in verify_roster_sheet(ws_roster)]
     game_parser = GameParser(
         game_id = metadata['objects']['game']['_id']['$oid'],
-        roster = {'A':a_roster['response']['roster'],'B':b_roster['response']['roster']},
+        roster = {'A':a_roster,'B':b_roster},
         ruleset = ParseDict(metadata['objects']['ruleset'],Ruleset()),
         tournament_id= metadata['objects']['game']['tournament_id'],
         team_a_id= metadata['objects']['team_a']['_id']['$oid'],
         team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
     game_parser.populate_from_possessions(game_parser.gen_possessions_from_statsheet(possessions))
-    print(game_parser.possessions)
-    print(game_parser)
-    print(MessageToJson(game_parser.game))
+    # print(game_parser.possessions)
+    # print(game_parser)
+    # print(MessageToJson(game_parser.game))
     return {
         'statusCode': 200,
-        'body': MessageToJson(possessions[-1])
+        'body': [MessageToJson(p,preserving_proto_field_name=True) for p in game_parser.possessions]
     }
