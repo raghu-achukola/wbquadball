@@ -1,6 +1,10 @@
 # wbquadball
 Central mono-repo for all work undertaken to building apps, standardizing statistics, etc. for the sport of quadball.
 
+## AWS Architecture Diagram
+![AWS Architecture Diagram](aws_architecture.png)
+
+## Incremental Change Log
 Inc 1: 
 Created "template" of functions- 
 * repo structure, package, __init__s, setup.py, test folder, test data, requirements, .gitignore
@@ -183,3 +187,4 @@ Inc 27
 * quadball/db: Modify game parser to attach stats_source on each possession from a game_template Game object
 * APIs/api-reload-game: Modify structure of API method to be a PUT request with the possessions as the data (following best practice, plus impossible to transmit all possession data in a GET request) and to take game-template as an query string parameter
 * Lambdas/api-reload-game: Modify code to update game with film links from statsheet and statsource from S3
+* README: add AWS Architecture Diagram
