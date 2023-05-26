@@ -3,6 +3,7 @@ import boto3
 from quadball.db.api.reload_game import reload_possessions
 from quadball.db.api.find_entity import find
 from quadball.schema.db.stats_pb2 import Possession
+from quadball.schema.db.game_pb2 import Game
 from google.protobuf.json_format import ParseDict,MessageToDict
 from bson.objectid import ObjectId
 import os
@@ -46,13 +47,27 @@ def initialize_connection() -> Tuple[MongoClient,str]:
 
 def lambda_handler(event,  context ) -> dict:
     # Call from an API from this format
-    # /quadball-stats/reload-game/{game-id}?possessions={jsonobj}, more params
+    # PUT  /quadball-stats/reload-game/{game-id}?game_template={gamejson} , json = {possessions} 
 
     # Step 1 -> Retrieve game
     # Step 2 -> Parse Possessions
     print(event)
     game_id = event.get('pathParameters',{}).get('proxy',{})
+    qsp = event.get('queryStringParameters',{})
+    game_template_json = json.loads(qsp.get('game_template',{}))
+    game_template = None
     possessions = json.loads(event.get('body',[]))
+    try:
+        if game_template_json:
+            game_template = ParseDict(game_template_json,Game())
+    except Exception as e: 
+        return {
+            'statusCode':400,
+            'body':json.dumps({
+                'title': 'Error parsing game_template',
+                'exception': str(e)
+            })
+        }
 
     try:
         possession_objects = [ParseDict(possession, Possession()) for possession in possessions]

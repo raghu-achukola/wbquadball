@@ -14,7 +14,7 @@ from typing import Iterable
 
 
 
-def reload_possessions(db:pymongo.database.Database, game_id:str, possession_list:Iterable[Possession], ruleset: Ruleset = None) -> dict:
+def reload_possessions(db:pymongo.database.Database, game_id:str, possession_list:Iterable[Possession], ruleset: Ruleset = None, game_template: Game = None) -> dict:
     """
         input format: 
 
@@ -56,6 +56,9 @@ def reload_possessions(db:pymongo.database.Database, game_id:str, possession_lis
         tournament_id = game.tournament_id, team_a_id = game.winning_team_id, 
         team_b_id= game.losing_team_id, film_links=list(game.film_sources)
     )
+    if game_template is not None:
+        game_parser.game.film_sources.extend(game_template.film_sources)
+        game_parser.game.stats_source = game_template.stats_source
     game_parser.populate_from_possessions(possessions=possession_list)
     return game_parser.game, game_parser.possessions
     # stagesCompleted = 0
