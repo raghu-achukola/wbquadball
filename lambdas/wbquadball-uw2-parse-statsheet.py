@@ -73,7 +73,7 @@ def verify_metadata_sheet(metadata_worksheet:Worksheet)-> Tuple[dict,dict]:
     film_links = [link.value for row in metadata_worksheet['B6:E6'] for link in row]
     response = requests.get(API_ENDPOINT+'?'+'&'.join({f'{param}={param_value}' for param, param_value in api_parameters.items()}))
     assert response.status_code == 200, response.json()
-    return response.json()
+    return response.json(), film_links
 
 
 def verify_roster_sheet (roster_worksheet: Worksheet):
@@ -109,11 +109,19 @@ def verify_roster_sheet (roster_worksheet: Worksheet):
 
 
 def reload(game:Game,possessions:list[Possession]):
-    API_ENDPOINT = os.environ['API_ENDPOINT']+'/reload-game/{game_id}'
+    API_ENDPOINT = os.environ['API_ENDPOINT']+'/reload-game/{game_id}?game_template={game_template}'
     json_obj = [MessageToDict(p,preserving_proto_field_name=True) for p in possessions]
-    actual = API_ENDPOINT.format(game_id = game._id)
-    return requests.put(actual,json =json_obj ).json()
+    game_template_json = urllib.parse.quote_plus(MessageToJson(game,preserving_proto_field_name=True))
+    actual = API_ENDPOINT.format(game_id = game._id,game_template=game_template_json)
+    return requests.put(actual,json=json_obj ).json()
     
+def archive_statsheet(s3_client, source_bucket:str, source_key:str,destination_key:str):
+    region = 'us-west-2'    #NOTE: does this need to be variable?
+    destination_bucket = 'wbquadball-uw2-public-metadata-storage'
+    s3_client.copy({'Bucket':source_bucket, 'Key':source_key},destination_bucket,destination_key)
+    url = f"https://{destination_bucket}.s3.{region}.amazonaws.com/{destination_key}"
+    return url
+
 
 def lambda_handler(event, context) -> dict:
     s3 = boto3.client('s3')
@@ -123,7 +131,7 @@ def lambda_handler(event, context) -> dict:
     wb = load_workbook(stream)
     ws_possessions, ws_roster, ws_metadata = extract_sheets(wb)
     try:
-        metadata = verify_metadata_sheet(ws_metadata)
+        metadata, film_links = verify_metadata_sheet(ws_metadata)
         assert  metadata.get('validation_stage') == 'Success'
     except AssertionError as e:
         print(e)
@@ -140,8 +148,12 @@ def lambda_handler(event, context) -> dict:
         team_a_id= metadata['objects']['team_a']['_id']['$oid'],
         team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
+    stats_source = archive_statsheet(s3,bucket,obj,f"statsheets/{game_parser.game._id}.xlsx")
+    game_parser.game.film_links.extend(film_links)
+    game_parser.game.stats_source = stats_source
     game_parser.populate_from_possessions(game_parser.gen_possessions_from_statsheet(possessions))
     print(reload(game_parser.game,game_parser.possessions))
+
   
     
     # print(game_parser.possessions)

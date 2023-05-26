@@ -57,6 +57,7 @@ class GameParser:
         for i, possession in enumerate(possessions):
             possession.possession_number.CopyFrom(UInt32Value(value = i+1))
             possession.game_id = self.game_id
+            possession.stats_source = self.game.stats_source
             self.process_possession(possession)
 
     def process_possession(self, possession: Possession):
