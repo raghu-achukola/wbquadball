@@ -108,7 +108,7 @@ def lambda_handler(event,  context ) -> dict:
         }
 
     try:
-        new_game, new_possessions = reload_possessions(db,game._id,possession_objects)
+        new_game, new_possessions = reload_possessions(db,game._id,possession_objects, game_template=game_template)
         mtd = MessageToDict(new_game,preserving_proto_field_name=True)
         del mtd['_id']
         db['games'].replace_one({'_id':ObjectId(new_game._id)},mtd )
