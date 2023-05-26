@@ -70,10 +70,10 @@ def verify_metadata_sheet(metadata_worksheet:Worksheet)-> Tuple[dict,dict]:
         a.value.lower().replace(' ','_'):str(b.value)
         for a,b in metadata_worksheet['A1:B5']
     }
-    film_links = [link.value for row in metadata_worksheet['B6:E6'] for link in row]
+    film_sources = [link.value for row in metadata_worksheet['B6:E6'] for link in row]
     response = requests.get(API_ENDPOINT+'?'+'&'.join({f'{param}={param_value}' for param, param_value in api_parameters.items()}))
     assert response.status_code == 200, response.json()
-    return response.json(), film_links
+    return response.json(), film_sources
 
 
 def verify_roster_sheet (roster_worksheet: Worksheet):
@@ -131,7 +131,7 @@ def lambda_handler(event, context) -> dict:
     wb = load_workbook(stream)
     ws_possessions, ws_roster, ws_metadata = extract_sheets(wb)
     try:
-        metadata, film_links = verify_metadata_sheet(ws_metadata)
+        metadata, film_sources = verify_metadata_sheet(ws_metadata)
         assert  metadata.get('validation_stage') == 'Success'
     except AssertionError as e:
         print(e)
@@ -149,7 +149,7 @@ def lambda_handler(event, context) -> dict:
         team_b_id=metadata['objects']['team_b']['_id']['$oid'],
     )
     stats_source = archive_statsheet(s3,bucket,obj,f"statsheets/{game_parser.game._id}.xlsx")
-    game_parser.game.film_links.extend(film_links)
+    game_parser.game.film_sources.extend(film_sources)
     game_parser.game.stats_source = stats_source
     game_parser.populate_from_possessions(game_parser.gen_possessions_from_statsheet(possessions))
     print(reload(game_parser.game,game_parser.possessions))
