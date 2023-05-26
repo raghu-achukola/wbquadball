@@ -175,3 +175,11 @@ Inc 25
 
 Inc 26 
 * App: Alter app to use the S3 public URL 
+
+Inc 27
+* AWS/Lambda: Attach IAM policy that gives rw access to the public metadata storage bucket to parse-statsheet
+* Lambdas/parse-statsheet: Modify code to reload game
+* Lambdas/parse-statsheet: Modify code to store the uploaded statsheet with as {game_id}.xlsx in the public metadata storage bucket, and pass on this public http link to be used as game.stats_source
+* quadball/db: Modify game parser to attach stats_source on each possession from a game_template Game object
+* APIs/api-reload-game: Modify structure of API method to be a PUT request with the possessions as the data (following best practice, plus impossible to transmit all possession data in a GET request) and to take game-template as an query string parameter
+* Lambdas/api-reload-game: Modify code to update game with film links from statsheet and statsource from S3
